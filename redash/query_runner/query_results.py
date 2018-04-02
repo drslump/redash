@@ -13,7 +13,45 @@ from redash.query_runner import (TYPE_BOOLEAN, TYPE_DATETIME, TYPE_FLOAT,
                                  register)
 from redash.utils import JSONEncoder
 
+from redash.utils.reql import ReqlParser
+
+
 logger = logging.getLogger(__name__)
+
+
+class QueryResultsVisitor(ReqlParser.Visitor):
+    """ Search among the table refrences in the query to find those
+        that match the `query_\d+` pattern.
+    """
+
+    QueryRef = namedtuple('QueryRef', 'name id line column')
+
+    def __init__(self):
+        self.queries = []
+
+    def table_ref(self, node):
+        if not node.children:
+            return
+
+        first = node.children[0]
+        if not isinstance(first, Tree) or first.data != 'ident':
+            return
+
+        t_name = first.children[0]
+        value = t_name.value
+
+        # No transformation step yet so we have a raw AST
+        if t_name.type == 'DQUOTED':
+            value = value[1:-1].replace('""', '"')
+
+        m = re.match(r'^query_(\d+)$', value, re.I)
+        if m:
+            self.queries.append(
+                QueryResultsVisitor.QueryRef(
+                    value,
+                    int(m.group(1)),
+                    t_name.line,
+                    t_name.column))
 
 
 class PermissionError(Exception):
@@ -42,9 +80,14 @@ def _guess_type(value):
     return TYPE_STRING
 
 
-def extract_query_ids(query):
-    queries = re.findall(r'(?:join|from)\s+query_(\d+)', query, re.IGNORECASE)
-    return [int(q) for q in queries]
+def extract_queries(query):
+    parser = ReqlParser()
+    ast = parser.parse(query)
+
+    visitor = QueryResultsVisitor()
+    visitor.visit(ast)
+
+    return visitor.queries
 
 
 def _load_query(user, query_id):
@@ -60,16 +103,23 @@ def _load_query(user, query_id):
     return query
 
 
-def create_tables_from_query_ids(user, connection, query_ids):
-    for query_id in set(query_ids):
+def create_tables_from_queries(user, connection, queries):
+    query_ids = set(x.id for x in queries)
+    for query_id in query_ids:
         query = _load_query(user, query_id)
 
         results, error = query.data_source.query_runner.run_query(
             query.query_text, user)
 
         if error:
+            locations = [
+                'Line {0} Column {1}'.format(x.line, x.column)
+                for x in queries
+                if x.id == query_id]
+
             raise Exception(
-                "Failed loading results for query id {}.".format(query.id))
+                "Failed loading results for query id {0} (at {1}).".format(
+                    query.id, ', '.join(locations)))
 
         results = json.loads(results)
         table_name = 'query_{query_id}'.format(query_id=query_id)
@@ -109,6 +159,10 @@ class Results(BaseQueryRunner):
         return {
             "type": "object",
             "properties": {
+                'memory': {
+                    'type': 'string',
+                    'title': 'Memory limit (in bytes)'
+                },
             }
         }
 
@@ -123,11 +177,20 @@ class Results(BaseQueryRunner):
     def run_query(self, query, user):
         connection = sqlite3.connect(':memory:')
 
-        query_ids = extract_query_ids(query)
-        create_tables_from_query_ids(user, connection, query_ids)
+        if self.configuration['memory']:
+            # See http://www.sqlite.org/pragma.html#pragma_page_size
+            cursor = connection.execute('PRAGMA schema.page_size')
+            page_size, = cursor.fetchone()
+            cursor.close()
+
+            pages = int(self.configuration['memory']) / page_size
+            connection.execute('PRAGMA max_page_count = {0}'.format(pages))
+            connection.execute('VACUUM')
+
+        queries = extract_queries(query)
+        create_tables_from_queries(user, connection, queries)
 
         cursor = connection.cursor()
-
         try:
             cursor.execute(query)
 
