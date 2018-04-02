@@ -1,0 +1,35 @@
+SELECT 1 FROM foo;
+SELECT foo FROM (SELECT 1);
+
+SELECT * FROM query[1];
+
+WITH foo AS query[1]
+SELECT * FROM foo;
+
+WITH foo AS ( query[1] )
+SELECT * FROM foo;
+
+WITH foo AS ( query[1] ), bar AS (query[2])
+SELECT * FROM foo, bar;
+
+SELECT foo, bar FROM query[id:1] WHERE foo > 10;
+
+SELECT foo
+FROM html[:
+    block content is trimmed and the indentation removed.
+    But new lines are respected.
+:] ;
+
+SELECT foo
+FROM html[=
+    verbatim block content is trimmed up to the first and
+    last new lines but no indentation is removed.
+=] ;
+
+SELECT foo
+FROM html[<
+    folded block content is trimmed, indentation removed
+    and newlines are converted to spaces.
+>] ;
+
+SELECT * FROM html['http://acme.org/sales.csv']::csv ;

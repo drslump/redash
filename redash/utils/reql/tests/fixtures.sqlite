@@ -1,0 +1,2210 @@
+--
+-- Harvested from sqlite3 tests
+-- https://github.com/mackyle/sqlite/tree/master/test
+--
+------------------------------------------
+
+SELECT * FROM test1 ;
+SELECT * FROM test1, test2 ;
+SELECT * FROM test2, test1 ;
+SELECT f1 FROM test1 ;
+SELECT f2 FROM test1 ;
+SELECT f2, f1 FROM test1 ;
+SELECT f1, f2 FROM test1 ;
+SELECT * FROM test1 ;
+SELECT *, * FROM test1 ;
+SELECT *, min(f1,f2), max(f1,f2) FROM test1 ;
+SELECT 'one', *, 'two', * FROM test1 ;
+SELECT * FROM test1, test2 ;
+SELECT *, 'hi' FROM test1, test2 ;
+SELECT 'one', *, 'two', * FROM test1, test2 ;
+SELECT test1.f1, test2.r1 FROM test1, test2 ;
+SELECT test1.f1, test2.r1 FROM test2, test1 ;
+SELECT * FROM test2, test1 ;
+SELECT * FROM test1 AS a, test1 AS b ;
+SELECT max(test1.f1,test2.r1), min(test1.f2,test2.r2)
+           FROM test2, test1 ;
+SELECT min(test1.f1,test2.r1), max(test1.f2,test2.r2)
+           FROM test1, test2 ;
+SELECT * FROM t3; ;
+SELECT count(f1,f2) FROM test1 ;
+SELECT count(f1) FROM test1 ;
+SELECT Count() FROM test1 ;
+SELECT COUNT(*) FROM test1 ;
+SELECT COUNT(*)+1 FROM test1 ;
+SELECT count(*),count(a),count(b) FROM t3 ;
+SELECT count(*),count(a),count(b) FROM t4 ;
+SELECT count(*),count(a),count(b) FROM t4 WHERE b=5 ;
+SELECT min(*) FROM test1 ;
+SELECT Min(f1) FROM test1 ;
+SELECT MIN(f1,f2) FROM test1 ;
+SELECT coalesce(min(a),'xyzzy') FROM t3 ;
+SELECT min(coalesce(a,'xyzzy')) FROM t3 ;
+SELECT min(b), min(b) FROM t4 ;
+SELECT MAX(*) FROM test1 ;
+SELECT Max(f1) FROM test1 ;
+SELECT max(f1,f2) FROM test1 ;
+SELECT MAX(f1,f2)+1 FROM test1 ;
+SELECT MAX(f1)+1 FROM test1 ;
+SELECT coalesce(max(a),'xyzzy') FROM t3 ;
+SELECT max(coalesce(a,'xyzzy')) FROM t3 ;
+SELECT SUM(*) FROM test1 ;
+SELECT Sum(f1) FROM test1 ;
+SELECT sum(f1,f2) FROM test1 ;
+SELECT SUM(f1)+1 FROM test1 ;
+SELECT sum(a) FROM t3 ;
+SELECT XYZZY(f1) FROM test1 ;
+SELECT SUM(min(f1,f2)) FROM test1 ;
+SELECT SUM(min(f1)) FROM test1 ;
+SELECT f1 FROM test1 WHERE f1<11 ;
+SELECT f1 FROM test1 WHERE f1<=11 ;
+SELECT f1 FROM test1 WHERE f1=11 ;
+SELECT f1 FROM test1 WHERE f1>=11 ;
+SELECT f1 FROM test1 WHERE f1>11 ;
+SELECT f1 FROM test1 WHERE f1!=11 ;
+SELECT f1 FROM test1 WHERE min(f1,f2)!=11 ;
+SELECT f1 FROM test1 WHERE max(f1,f2)!=11 ;
+SELECT f1 FROM test1 WHERE count(f1,f2)!=11 ;
+SELECT f1 FROM test1 ORDER BY f1 ;
+SELECT f1 FROM test1 ORDER BY -f1 ;
+SELECT f1 FROM test1 ORDER BY min(f1,f2) ;
+SELECT f1 FROM test1 ORDER BY min(f1) ;
+SELECT f1 FROM test1 ORDER BY 8.4 ;
+SELECT f1 FROM test1 ORDER BY '8.4' ;
+SELECT * FROM t5 ORDER BY 1; ;
+SELECT * FROM t5 ORDER BY 2; ;
+SELECT * FROM t5 ORDER BY +2; ;
+SELECT * FROM t5 ORDER BY 2, 1 DESC; ;
+SELECT * FROM t5 ORDER BY 1 DESC, b; ;
+SELECT * FROM t5 ORDER BY b DESC, 1; ;
+SELECT max(f1) FROM test1 ORDER BY f2 ;
+SELECT A.f1, B.f1 FROM test1 as A, test1 as B
+         ORDER BY A.f1, B.f1 ;
+SELECT a FROM t6 WHERE b IN
+        (SELECT b FROM t6 WHERE a<='b' UNION SELECT '3' AS x
+                 ORDER BY 1 LIMIT 1) ;
+SELECT a FROM t6 WHERE b IN
+        (SELECT b FROM t6 WHERE a<='b' UNION SELECT '3' AS x
+                 ORDER BY 1 DESC LIMIT 1) ;
+SELECT a FROM t6 WHERE b IN
+        (SELECT b FROM t6 WHERE a<='b' UNION SELECT '3' AS x
+                 ORDER BY b LIMIT 2)
+     ORDER BY a; ;
+SELECT a FROM t6 WHERE b IN
+        (SELECT b FROM t6 WHERE a<='b' UNION SELECT '3' AS x
+                 ORDER BY x DESC LIMIT 2)
+     ORDER BY a; ;
+SELECT f1 FROM test1 WHERE 4.3+2.4 OR 1 ORDER BY f1 ;
+SELECT f1 FROM test1 WHERE ('x' || f1) BETWEEN 'x10' AND 'x20'
+    ORDER BY f1 ;
+SELECT f1 FROM test1 WHERE 5-3==2
+    ORDER BY f1 ;
+SELECT coalesce(f1/(f1-11),'x'),
+           coalesce(min(f1/(f1-11),5),'y'),
+           coalesce(max(f1/(f1-33),6),'z')
+    FROM test1 ORDER BY f1 ;
+SELECT min(1,2,3), -max(1,2,3)
+    FROM test1 ORDER BY f1 ;
+SELECT * FROM test1 WHERE f1<0 ;
+SELECT * FROM test1 WHERE f1<0 ;
+SELECT * FROM test1 WHERE f1<(select count(*) from test2) ;
+SELECT * FROM test1 ORDER BY f1 ;
+SELECT * FROM test1 WHERE f1<0 ORDER BY f1 ;
+SELECT f1 AS x FROM test1 ORDER BY x ;
+SELECT f1 AS x FROM test1 ORDER BY -x ;
+SELECT f1-23 AS x FROM test1 ORDER BY abs(x) ;
+SELECT f1-23 AS x FROM test1 ORDER BY -abs(x) ;
+SELECT f1-22 AS x, f2-22 as y FROM test1 ;
+SELECT f1-22 AS x, f2-22 as y FROM test1 WHERE x>0 AND y<50 ;
+SELECT f1 COLLATE nocase AS x FROM test1 ORDER BY x ;
+SELECT * FROM t3, t4; ;
+SELECT * FROM t3, t4; ;
+SELECT t3.*, t4.b FROM t3, t4; ;
+
+SELECT "t3".*, t4.b FROM t3, t4; ;
+SELECT t3.b, t4.* FROM t3, t4; ;
+SELECT * FROM t3 UNION SELECT 3 AS 'a', 4 ORDER BY a; ;
+SELECT 3, 4 UNION SELECT * FROM t3; ;
+SELECT * FROM t3 WHERE a=(SELECT 1); ;
+SELECT * FROM t3 WHERE a=(SELECT 2); ;
+SELECT count(
+        (SELECT a FROM abc WHERE a = NULL AND b >= upper.c)
+      ) FROM abc AS upper; ;
+SELECT name FROM sqlite_master WHERE type = 'table' ;
+SELECT * FROM sqlite_master WHERE rowid>10;
+    SELECT * FROM sqlite_master WHERE rowid=10;
+    SELECT * FROM sqlite_master WHERE rowid<10;
+    SELECT * FROM sqlite_master WHERE rowid<=10;
+    SELECT * FROM sqlite_master WHERE rowid>=10;
+    SELECT * FROM sqlite_master; ;
+SELECT 10 IN (SELECT rowid FROM sqlite_master); ;
+SELECT 2 IN (SELECT a FROM t1) ;
+SELECT count(*) FROM tbl2 ;
+SELECT count(*) FROM tbl2 WHERE f2>1000 ;
+SELECT f1 FROM tbl2 WHERE 1000=f2 ;
+SELECT f1 FROM tbl2 WHERE 1000=f2 ;
+SELECT f1 FROM tbl2 WHERE f2=1000 ;
+SELECT * FROM tbl2 WHERE 1000=f2 ;
+SELECT * FROM tbl2 WHERE f2=1000 ;
+SELECT f1 FROM tbl2 WHERE f2==2000 ;
+SELECT * FROM aa, bb WHERE max(a,b)>2; ;
+SELECT * FROM aa CROSS JOIN bb WHERE b; ;
+SELECT * FROM aa CROSS JOIN bb WHERE NOT b; ;
+SELECT * FROM aa, bb WHERE min(a,b); ;
+SELECT * FROM aa, bb WHERE NOT min(a,b); ;
+SELECT * FROM aa, bb WHERE CASE WHEN a=b-1 THEN 1 END; ;
+SELECT * FROM aa, bb WHERE CASE WHEN a=b-1 THEN 0 ELSE 1 END; ;
+SELECT DISTINCT log FROM t1 ORDER BY log ;
+SELECT count(*) FROM t1 ;
+SELECT min(n),min(log),max(n),max(log),sum(n),sum(log),avg(n),avg(log)
+    FROM t1 ;
+SELECT max(n)/avg(n), max(log)/avg(log) FROM t1 ;
+SELECT log, count(*) FROM t1 GROUP BY log ORDER BY log ;
+SELECT log, min(n) FROM t1 GROUP BY log ORDER BY log ;
+SELECT log, avg(n) FROM t1 GROUP BY log ORDER BY log ;
+SELECT log, avg(n)+1 FROM t1 GROUP BY log ORDER BY log ;
+SELECT log, avg(n)-min(n) FROM t1 GROUP BY log ORDER BY log ;
+SELECT log*2+1, avg(n)-min(n) FROM t1 GROUP BY log ORDER BY log ;
+SELECT log*2+1 as x, count(*) FROM t1 GROUP BY x ORDER BY x ;
+SELECT log*2+1 AS x, count(*) AS y FROM t1 GROUP BY x ORDER BY y, x ;
+SELECT log*2+1 AS x, count(*) AS y FROM t1 GROUP BY x ORDER BY 10-(x+y) ;
+SELECT log, count(*) FROM t1 HAVING log>=4 ;
+SELECT log, count(*) FROM t1 GROUP BY log HAVING log>=4 ORDER BY log ;
+SELECT log, count(*) FROM t1
+    GROUP BY log
+    HAVING count(*)>=4
+    ORDER BY log ;
+SELECT log, count(*) FROM t1
+    GROUP BY log
+    HAVING count(*)>=4
+    ORDER BY max(n)+0 ;
+SELECT log AS x, count(*) AS y FROM t1
+    GROUP BY x
+    HAVING y>=4
+    ORDER BY max(n)+0 ;
+SELECT log AS x FROM t1
+    GROUP BY x
+    HAVING count(*)>=4
+    ORDER BY max(n)+0 ;
+SELECT log, count(*), avg(n), max(n+log*2) FROM t1
+    GROUP BY log
+    ORDER BY max(n+log*2)+0, avg(n)+0 ;
+SELECT log, count(*), avg(n), max(n+log*2) FROM t1
+    GROUP BY log
+    ORDER BY max(n+log*2)+0, min(log,avg(n))+0 ;
+SELECT log, min(n) FROM t1 GROUP BY log ORDER BY log; ;
+SELECT log, min(n) FROM t1 GROUP BY log ORDER BY log DESC; ;
+SELECT log, min(n) FROM t1 GROUP BY log ORDER BY 1; ;
+SELECT log, min(n) FROM t1 GROUP BY log ORDER BY 1 DESC; ;
+SELECT log, min(n) FROM t1 GROUP BY log ORDER BY log; ;
+SELECT log, min(n) FROM t1 GROUP BY log ORDER BY log DESC; ;
+SELECT log, min(n) FROM t1 GROUP BY log ORDER BY 1; ;
+SELECT log, min(n) FROM t1 GROUP BY log ORDER BY 1 DESC; ;
+SELECT a, sum(b) FROM t2 WHERE b=5 GROUP BY a; ;
+SELECT a, sum(b) FROM t2 WHERE b=5; ;
+SELECT typeof(sum(a3)) FROM a; ;
+SELECT typeof(sum(a3)) FROM a GROUP BY a1; ;
+SELECT DISTINCT log FROM t1 ORDER BY log ;
+SELECT DISTINCT log FROM t1 ;
+SELECT n FROM t1 WHERE log=3 ;
+SELECT DISTINCT log FROM t1
+    UNION ALL
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY log; ;
+
+    SELECT * FROM t2; ;
+
+    SELECT * FROM t2; ;
+SELECT DISTINCT log FROM t1
+    UNION ALL
+    SELECT n FROM t1 WHERE log=2 ;
+
+    SELECT * FROM t2; ;
+SELECT log FROM t1 WHERE n IN
+        (SELECT DISTINCT log FROM t1 UNION ALL
+         SELECT n FROM t1 WHERE log=3)
+      ORDER BY log; ;
+SELECT DISTINCT log FROM t1
+    UNION
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY log; ;
+SELECT log FROM t1 WHERE n IN
+        (SELECT DISTINCT log FROM t1 UNION
+         SELECT n FROM t1 WHERE log=3)
+      ORDER BY log; ;
+
+SELECT DISTINCT log FROM t1
+    EXCEPT
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY log; ;
+SELECT log FROM t1 WHERE n IN
+        (SELECT DISTINCT log FROM t1 EXCEPT
+         SELECT n FROM t1 WHERE log=3)
+      ORDER BY log; ;
+SELECT log FROM t1 WHERE n IN
+        (SELECT DISTINCT log FROM t1 INTERSECT
+         SELECT n FROM t1 WHERE log=3)
+      ORDER BY log; ;
+SELECT * FROM (
+         SELECT NULL, 1 UNION ALL SELECT NULL, 1
+      ); ;
+SELECT DISTINCT * FROM (
+         SELECT NULL, 1 UNION ALL SELECT NULL, 1
+      ); ;
+SELECT DISTINCT * FROM (
+         SELECT 1,2  UNION ALL SELECT 1,2
+      ); ;
+SELECT NULL EXCEPT SELECT NULL ;
+SELECT * FROM t2 ORDER BY x; ;
+SELECT DISTINCT b FROM t3 ORDER BY c; ;
+SELECT DISTINCT c FROM t3 ORDER BY c; ;
+SELECT 0 AS x, 1 AS y
+    UNION
+    SELECT 2 AS y, -3 AS x
+    ORDER BY x LIMIT 1; ;
+SELECT DISTINCT log FROM t1 ORDER BY log ;
+SELECT DISTINCT log FROM t1 ORDER BY log LIMIT 4 ;
+SELECT DISTINCT log FROM t1 ORDER BY log LIMIT 0 ;
+SELECT DISTINCT log FROM t1 ORDER BY log LIMIT -1 ;
+SELECT DISTINCT log FROM t1 ORDER BY log LIMIT -1 OFFSET 2 ;
+SELECT DISTINCT log FROM t1 ORDER BY log LIMIT 3 OFFSET 2 ;
+SELECT DISTINCT log FROM t1 ORDER BY +log LIMIT 3 OFFSET 20 ;
+SELECT DISTINCT log FROM t1 ORDER BY log LIMIT 0 OFFSET 3 ;
+SELECT DISTINCT max(n), log FROM t1 ORDER BY +log LIMIT 2 OFFSET 1 ;
+SELECT DISTINCT b from t13 WHERE a IN (1,2,3); ;
+SELECT DISTINCT y FROM t1 ORDER BY y ;
+SELECT y, count(*) FROM t1 GROUP BY y ORDER BY y ;
+SELECT y, count(*) FROM t1 GROUP BY y ORDER BY count(*), y ;
+SELECT count(*), y FROM t1 GROUP BY y ORDER BY count(*), y ;
+SELECT y, count(*) FROM t1 GROUP BY z(y) ORDER BY y ;
+SELECT y, count(*) FROM t1 GROUP BY y HAVING count(*)<3 ORDER BY y ;
+SELECT y, count(*) FROM t1 GROUP BY y HAVING z(y)<3 ORDER BY y ;
+SELECT y, count(*) FROM t1 GROUP BY y HAVING count(*)<z ORDER BY y ;
+SELECT x, count(*), avg(y) FROM t1 GROUP BY x HAVING x<4 ORDER BY x ;
+SELECT avg(x) FROM t1 WHERE x>100 ;
+SELECT count(x) FROM t1 WHERE x>100 ;
+SELECT min(x) FROM t1 WHERE x>100 ;
+SELECT max(x) FROM t1 WHERE x>100 ;
+SELECT sum(x) FROM t1 WHERE x>100 ;
+SELECT a FROM t2 GROUP BY a; ;
+SELECT a FROM t2 WHERE a>2 GROUP BY a; ;
+SELECT a, b FROM t2 GROUP BY a, b; ;
+SELECT a, b FROM t2 GROUP BY a; ;
+SELECT max(c), b*a, b, a FROM t2 GROUP BY b*a, b, a ;
+SELECT count(x), y FROM t3 GROUP BY y ORDER BY 1 ;
+SELECT max(x), count(x), y, z FROM t4 GROUP BY y, z ORDER BY 1 ;
+SELECT count(*), count(x) as cnt FROM t4 GROUP BY y ORDER BY cnt; ;
+SELECT a, count(b) FROM t8a, t8b WHERE b=t8b.rowid GROUP BY a ORDER BY a; ;
+SELECT a, count(b) FROM t8a, t8b WHERE b=+t8b.rowid GROUP BY a ORDER BY a; ;
+SELECT t8a.a, count(t8a.b) FROM t8a, t8b WHERE t8a.b=t8b.rowid
+     GROUP BY 1 ORDER BY 1; ;
+SELECT a, count(*) FROM t8a, t8b WHERE b=+t8b.rowid GROUP BY a ORDER BY a; ;
+SELECT a, count(b) FROM t8a, t8b WHERE b<x GROUP BY a ORDER BY a; ;
+SELECT a, count(t8a.b) FROM t8a, t8b WHERE b=t8b.rowid
+     GROUP BY a ORDER BY 2; ;
+SELECT a, count(b) FROM t8a, t8b GROUP BY a ORDER BY 2; ;
+SELECT a, count(*) FROM t8a, t8b GROUP BY a ORDER BY 2; ;
+SELECT DISTINCT y FROM t1 ORDER BY y; ;
+SELECT count(*) FROM (SELECT y FROM t1) ;
+SELECT count(*) FROM (SELECT DISTINCT y FROM t1) ;
+SELECT count(*) FROM (SELECT DISTINCT * FROM (SELECT y FROM t1)) ;
+SELECT count(*) FROM (SELECT * FROM (SELECT DISTINCT y FROM t1)) ;
+SELECT *
+    FROM (SELECT count(*),y FROM t1 GROUP BY y) AS a,
+         (SELECT max(x),y FROM t1 GROUP BY y) as b
+    WHERE a.y=b.y ORDER BY a.y ;
+SELECT a.y, a.[count(*)], [max(x)], [count(*)]
+    FROM (SELECT count(*),y FROM t1 GROUP BY y) AS a,
+         (SELECT max(x),y FROM t1 GROUP BY y) as b
+    WHERE a.y=b.y ORDER BY a.y ;
+SELECT q, p, r
+    FROM (SELECT count(*) as p , y as q FROM t1 GROUP BY y) AS a,
+         (SELECT max(x) as r, y as s FROM t1 GROUP BY y) as b
+    WHERE q=s ORDER BY s ;
+SELECT q, p, r, b.[min(x)+y]
+    FROM (SELECT count(*) as p , y as q FROM t1 GROUP BY y) AS a,
+         (SELECT max(x) as r, y as s, min(x)+y FROM t1 GROUP BY y) as b
+    WHERE q=s ORDER BY s ;
+
+SELECT DISTINCT b FROM t2 ORDER BY b; ;
+SELECT count(*) FROM (SELECT b FROM t2) ;
+SELECT count(*) FROM (SELECT DISTINCT b FROM t2) ;
+SELECT count(*) FROM (SELECT DISTINCT * FROM (SELECT b FROM t2)) ;
+SELECT count(*) FROM (SELECT * FROM (SELECT DISTINCT b FROM t2)) ;
+SELECT *
+    FROM (SELECT count(*),b FROM t2 GROUP BY b) AS a,
+         (SELECT max(a),b FROM t2 GROUP BY b) as b
+    WHERE a.b=b.b ORDER BY a.b ;
+SELECT a.b, a.[count(*)], [max(a)], [count(*)]
+    FROM (SELECT count(*),b FROM t2 GROUP BY b) AS a,
+         (SELECT max(a),b FROM t2 GROUP BY b) as b
+    WHERE a.b=b.b ORDER BY a.b ;
+SELECT q, p, r
+    FROM (SELECT count(*) as p , b as q FROM t2 GROUP BY b) AS a,
+         (SELECT max(a) as r, b as s FROM t2 GROUP BY b) as b
+    WHERE q=s ORDER BY s ;
+SELECT a.q, a.p, b.r
+    FROM (SELECT count(*) as p , b as q FROM t2 GROUP BY q) AS a,
+         (SELECT max(a) as r, b as s FROM t2 GROUP BY s) as b
+    WHERE a.q=b.s ORDER BY a.q ;
+SELECT * FROM
+      (SELECT a.q, a.p, b.r
+       FROM (SELECT count(*) as p , b as q FROM t2 GROUP BY q) AS a,
+            (SELECT max(a) as r, b as s FROM t2 GROUP BY s) as b
+       WHERE a.q=b.s ORDER BY a.q)
+    ORDER BY "a.q" ;
+SELECT a,b,a+b FROM (SELECT avg(x) as 'a', avg(y) as 'b' FROM t1) ;
+SELECT a,b,a+b FROM (SELECT avg(x) as 'a', avg(y) as 'b' FROM t1 WHERE y=4) ;
+SELECT x,y,x+y FROM (SELECT avg(a) as 'x', avg(b) as 'y' FROM t2 WHERE a=4) ;
+SELECT a,b,a+b FROM (SELECT avg(x) as 'a', avg(y) as 'b' FROM t1)
+    WHERE a>10 ;
+SELECT a,b,a+b FROM (SELECT avg(x) as 'a', avg(y) as 'b' FROM t1)
+    WHERE a<10 ;
+SELECT a,b,a+b FROM (SELECT avg(x) as 'a', avg(y) as 'b' FROM t1 WHERE y=4)
+    WHERE a>10 ;
+SELECT a,b,a+b FROM (SELECT avg(x) as 'a', avg(y) as 'b' FROM t1 WHERE y=4)
+    WHERE a<10 ;
+SELECT a,b,a+b FROM (SELECT avg(x) as 'a', y as 'b' FROM t1 GROUP BY b)
+    ORDER BY a ;
+SELECT a,b,a+b FROM
+       (SELECT avg(x) as 'a', y as 'b' FROM t1 GROUP BY b)
+    WHERE b<4 ORDER BY a ;
+SELECT a,b,a+b FROM
+       (SELECT avg(x) as 'a', y as 'b' FROM t1 GROUP BY b HAVING a>1)
+    WHERE b<4 ORDER BY a ;
+SELECT a,b,a+b FROM
+       (SELECT avg(x) as 'a', y as 'b' FROM t1 GROUP BY b HAVING a>1)
+    ORDER BY a ;
+SELECT [count(*)],y FROM (SELECT count(*), y FROM t1 GROUP BY y)
+    ORDER BY [count(*)] ;
+SELECT [count(*)],y FROM (SELECT count(*), y FROM t1 GROUP BY y)
+    ORDER BY y ;
+SELECT a,b,c FROM
+      (SELECT x AS 'a', y AS 'b', x+y AS 'c' FROM t1 WHERE y=4)
+    WHERE a<10 ORDER BY a; ;
+SELECT y FROM (SELECT DISTINCT y FROM t1) WHERE y<5 ORDER BY y ;
+SELECT DISTINCT y FROM (SELECT y FROM t1) WHERE y<5 ORDER BY y ;
+SELECT avg(y) FROM (SELECT DISTINCT y FROM t1) WHERE y<5 ORDER BY y ;
+SELECT avg(y) FROM (SELECT DISTINCT y FROM t1 WHERE y<5) ORDER BY y ;
+SELECT a,x,b FROM
+      (SELECT x+3 AS 'a', x FROM t1 WHERE y=3) AS 'p',
+      (SELECT x AS 'b' FROM t1 WHERE y=4) AS 'q'
+    WHERE a=b
+    ORDER BY a ;
+SELECT a,x,b FROM
+      (SELECT x+3 AS 'a', x FROM t1 WHERE y=3),
+      (SELECT x AS 'b' FROM t1 WHERE y=4)
+    WHERE a=b
+    ORDER BY a ;
+    SELECT * FROM t1 ;
+SELECT * FROM (
+        SELECT x AS 'a' FROM t1 UNION ALL SELECT x+10 AS 'a' FROM t1
+      ) ORDER BY a; ;
+SELECT * FROM (
+        SELECT x AS 'a' FROM t1 UNION ALL SELECT x+1 AS 'a' FROM t1
+      ) ORDER BY a; ;
+SELECT * FROM (
+        SELECT x AS 'a' FROM t1 UNION SELECT x+1 AS 'a' FROM t1
+      ) ORDER BY a; ;
+SELECT * FROM (
+        SELECT x AS 'a' FROM t1 INTERSECT SELECT x+1 AS 'a' FROM t1
+      ) ORDER BY a; ;
+SELECT * FROM (
+        SELECT x AS 'a' FROM t1 EXCEPT SELECT x*2 AS 'a' FROM t1
+      ) ORDER BY a; ;
+SELECT * FROM (SELECT 1) ;
+SELECT c,b,a,* FROM (SELECT 1 AS 'a', 2 AS 'b', 'abc' AS 'c') ;
+SELECT c,b,a,* FROM (SELECT 1 AS 'a', 2 AS 'b', 'abc' AS 'c' WHERE 0) ;
+SELECT * FROM t3 NATURAL JOIN t4; ;
+SELECT y, p, q, r FROM
+       (SELECT t1.y AS y, t2.b AS b FROM t1, t2 WHERE t1.x=t2.a) AS m,
+       (SELECT t3.p AS p, t3.q AS q, t4.r AS r FROM t3 NATURAL JOIN t4) as n
+    WHERE  y=p ;
+SELECT DISTINCT y, p, q, r FROM
+       (SELECT t1.y AS y, t2.b AS b FROM t1, t2 WHERE t1.x=t2.a) AS m,
+       (SELECT t3.p AS p, t3.q AS q, t4.r AS r FROM t3 NATURAL JOIN t4) as n
+    WHERE  y=p ;
+SELECT * FROM
+      (SELECT y, p, q, r FROM
+         (SELECT t1.y AS y, t2.b AS b FROM t1, t2 WHERE t1.x=t2.a) AS m,
+         (SELECT t3.p AS p, t3.q AS q, t4.r AS r FROM t3 NATURAL JOIN t4) as n
+      WHERE  y=p) AS e,
+      (SELECT r AS z FROM t4 WHERE q=11) AS f
+    WHERE e.r=f.z ;
+SELECT a.x, b.x FROM t1 AS a, (SELECT x FROM t1 LIMIT 2) AS b
+     ORDER BY 1, 2 ;
+SELECT x FROM (SELECT x FROM t1 LIMIT 2); ;
+SELECT x FROM (SELECT x FROM t1 LIMIT 2 OFFSET 1); ;
+SELECT x FROM (SELECT x FROM t1) LIMIT 2; ;
+SELECT x FROM (SELECT x FROM t1) LIMIT 2 OFFSET 1; ;
+SELECT x FROM (SELECT x FROM t1 LIMIT 2) LIMIT 3; ;
+SELECT x FROM (SELECT x FROM t1 LIMIT -1) LIMIT 3; ;
+SELECT x FROM (SELECT x FROM t1 LIMIT -1); ;
+SELECT x FROM (SELECT x FROM t1 LIMIT -1 OFFSET 1); ;
+SELECT x, y FROM (SELECT x, (SELECT 10+x) y FROM t1 LIMIT -1 OFFSET 1); ;
+SELECT x, y FROM (SELECT x, (SELECT 10)+x y FROM t1 LIMIT -1 OFFSET 1); ;
+select * from t1 where x like 'a__'
+  intersect select * from t1 where x like '_m_'
+  intersect select * from t1 where x like '__x'; ;
+SELECT * FROM tv2; ;
+SELECT * FROM sqlite_master ORDER BY name ;
+SELECT P.pk from PHOTO P WHERE NOT EXISTS (
+          SELECT T2.pk from TAG T2 WHERE T2.fk = P.pk
+          EXCEPT
+          SELECT T3.pk from TAG T3 WHERE T3.fk = P.pk AND T3.name LIKE '%foo%'
+    ); ;
+
+SELECT P.pk from PHOTO P WHERE NOT EXISTS (
+           SELECT T2.pk from TAG T2 WHERE T2.fk = P.pk
+           EXCEPT
+           SELECT T3.pk from TAG T3 WHERE T3.fk = P.pk AND T3.name LIKE '%foo%'
+      ); ;
+SELECT (CASE WHEN a=0 THEN 0 ELSE (a + 25) / 50 END) AS categ, count(*)
+  FROM t3 GROUP BY categ ;
+SELECT (CASE WHEN a=0 THEN 'zero' ELSE a/2 END) AS t FROM t4 GROUP BY t; ;
+SELECT a=0, typeof(a) FROM t4 ;
+SELECT a=0, typeof(a) FROM t4 GROUP BY a ;
+SELECT typeof(a), a FROM t5 GROUP BY a HAVING a<b; ;
+SELECT DISTINCT artist,sum(timesplayed) AS total
+  FROM songs
+  GROUP BY LOWER(artist) ;
+SELECT DISTINCT artist,sum(timesplayed) AS total
+    FROM songs
+    GROUP BY LOWER(artist)
+    LIMIT 1 OFFSET 1 ;
+SELECT DISTINCT artist,sum(timesplayed) AS total
+    FROM songs
+    GROUP BY LOWER(artist)
+    LIMIT 2 OFFSET 1 ;
+SELECT DISTINCT artist,sum(timesplayed) AS total
+  FROM songs
+  GROUP BY LOWER(artist)
+  LIMIT -1 OFFSET 2 ;
+SELECT * FROM v5 WHERE x='12345' ORDER BY y; ;
+SELECT x, y FROM v5 WHERE x='12345' ORDER BY y; ;
+SELECT x, y FROM v5 WHERE +x='12345' ORDER BY y; ;
+SELECT * FROM t1; ;
+SELECT * FROM t2; ;
+SELECT count(*) FROM t3; ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY a,b,c ;
+SELECT t1.a, t1.b, t1.c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY t1.a, t1.b, t1.c ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY a DESC,b,c ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY a,c,b ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY b,a,c ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY b COLLATE NOCASE,a,c ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY b COLLATE NOCASE DESC,a,c ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY c,b,a ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY c,a,b ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY c DESC,a,b ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY c COLLATE BINARY DESC,a,b ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY a,b,c ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY a DESC,b,c ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY a,c,b ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY b,a,c ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY b COLLATE NOCASE,a,c ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY b COLLATE NOCASE DESC,a,c ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY c,b,a ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY c,a,b ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY c DESC,a,b ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY c COLLATE BINARY DESC,a,b ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY a DESC,b,c ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY a,c,b ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY b,a,c ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY b COLLATE NOCASE,a,c ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY b COLLATE NOCASE DESC,a,c ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY c,b,a ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY c,a,b ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY c DESC,a,b ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY c COLLATE BINARY DESC,a,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY a,b,c ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY a DESC,b,c ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY a,c,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY b,a,c ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY y COLLATE NOCASE,x,z ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY y COLLATE NOCASE DESC,x,z ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY c,b,a ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY c,a,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY c DESC,a,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY z COLLATE BINARY DESC,x,y ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t1 WHERE b>='d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t1 WHERE b<'d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY a DESC ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY a DESC ;
+SELECT a,b,c FROM t1 WHERE b>='d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY a DESC ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY a DESC ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY a DESC ;
+SELECT a,b,c FROM t1 WHERE b<'d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY a DESC ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY b, a DESC ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY b ;
+SELECT a,b,c FROM t1 WHERE b>='d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY b DESC, c ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY b, c DESC, a ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY b COLLATE NOCASE ;
+SELECT a,b,c FROM t1 WHERE b<'d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY b ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY c, a DESC ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY c ;
+SELECT a,b,c FROM t1 WHERE b>='d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY c COLLATE BINARY, b DESC, c, a, b, c, a, b, c ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY c DESC, a ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY c COLLATE NOCASE ;
+SELECT a,b,c FROM t1 WHERE b<'d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY c ;
+SELECT a,b,c FROM t3 INTERSECT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY c COLLATE NOCASE ;
+SELECT a,b,c FROM t1 WHERE b<'d' INTERSECT SELECT a,b,c FROM t3
+    ORDER BY c ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t3 WHERE b<'d'
+    ORDER BY c DESC, a ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b<'d'
+    INTERSECT SELECT a,b,c FROM t3
+    EXCEPT SELECT b,c,a FROM t3
+    ORDER BY c DESC, a ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b<'d'
+    INTERSECT SELECT a,b,c FROM t3
+    EXCEPT SELECT b,c,a FROM t3
+    ORDER BY c COLLATE NOCASE ;
+SELECT a,b,c FROM t1 WHERE b<'d' INTERSECT SELECT a,b,c FROM t1
+    INTERSECT SELECT a,b,c FROM t3
+    EXCEPT SELECT b,c,a FROM t3
+    ORDER BY c ;
+SELECT a,b,c FROM t1 WHERE b<'d'
+    INTERSECT SELECT a,b,c FROM t1
+    INTERSECT SELECT a,b,c FROM t3
+    EXCEPT SELECT b,c,a FROM t3
+    INTERSECT SELECT a,b,c FROM t1
+    EXCEPT SELECT x,y,z FROM t2
+    INTERSECT SELECT a,b,c FROM t3
+    EXCEPT SELECT y,x,z FROM t2
+    INTERSECT SELECT a,b,c FROM t1
+    EXCEPT SELECT c,b,a FROM t3
+    ORDER BY c ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY a DESC,b,c ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY a,c,b ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY b,a,c ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY b COLLATE NOCASE,a,c ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY b COLLATE NOCASE DESC,a,c ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY c,b,a ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY c,a,b ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY c DESC,a,b ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY c COLLATE BINARY DESC,a,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY a,b,c ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY a DESC,b,c ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY a,c,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY b,a,c ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY y COLLATE NOCASE,x,z ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY y COLLATE NOCASE DESC,x,z ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY c,b,a ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY c,a,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY c DESC,a,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY z COLLATE BINARY DESC,x,y ;
+SELECT x,y,z FROM t2
+    INTERSECT SELECT a,b,c FROM t3
+    EXCEPT SELECT c,b,a FROM t1
+    UNION SELECT a,b,c FROM t3
+    INTERSECT SELECT a,b,c FROM t3
+    EXCEPT SELECT c,b,a FROM t1
+    UNION SELECT a,b,c FROM t3
+    ORDER BY y COLLATE NOCASE DESC,x,z ;
+SELECT upper((SELECT c FROM t1 UNION SELECT z FROM t2 ORDER BY 1)); ;
+SELECT lower((SELECT c FROM t1 UNION ALL SELECT z FROM t2 ORDER BY 1)); ;
+SELECT lower((SELECT c FROM t1 INTERSECT SELECT z FROM t2 ORDER BY 1)); ;
+SELECT lower((SELECT z FROM t2 EXCEPT SELECT c FROM t1 ORDER BY 1)); ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY a,b,c ;
+SELECT t1.a,b,t1.c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY a,t1.b,t1.c ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY a DESC,b,c ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY a,c,b ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY b,a,c ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY b COLLATE NOCASE,a,c ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY b COLLATE NOCASE DESC,a,c ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY c,b,a ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY c,a,b ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY c DESC,a,b ;
+SELECT a,b,c FROM t1 UNION ALL SELECT x,y,z FROM t2
+    ORDER BY c COLLATE BINARY DESC,a,b ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY a,b,c ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY a DESC,b,c ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY a,c,b ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY b,a,c ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY b COLLATE NOCASE,a,c ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY b COLLATE NOCASE DESC,a,c ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY c,b,a ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY c,a,b ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY c DESC,a,b ;
+SELECT x,y,z FROM t2 UNION ALL SELECT a,b,c FROM t1
+    ORDER BY c COLLATE BINARY DESC,a,b ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY a DESC,b,c ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY a,c,b ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY b,a,c ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY b COLLATE NOCASE,a,c ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY b COLLATE NOCASE DESC,a,c ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY c,b,a ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY c,a,b ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY c DESC,a,b ;
+SELECT a,b,c FROM t1 UNION SELECT x,y,z FROM t2
+    ORDER BY c COLLATE BINARY DESC,a,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY a,b,c ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY a DESC,b,c ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY a,c,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY b,a,c ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY y COLLATE NOCASE,x,z ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY y COLLATE NOCASE DESC,x,z ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY c,b,a ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY c,a,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY c DESC,a,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t1
+    ORDER BY z COLLATE BINARY DESC,x,y ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t1 WHERE b>='d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t1 WHERE b<'d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY a DESC ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY a DESC ;
+SELECT a,b,c FROM t1 WHERE b>='d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY a DESC ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY a DESC ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY a DESC ;
+SELECT a,b,c FROM t1 WHERE b<'d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY a DESC ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY b, a DESC ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY b ;
+SELECT a,b,c FROM t1 WHERE b>='d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY b DESC, c ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY b, c DESC, a ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY b COLLATE NOCASE ;
+SELECT a,b,c FROM t1 WHERE b<'d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY b ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY c, a DESC ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b>='d'
+    ORDER BY c ;
+SELECT a,b,c FROM t1 WHERE b>='d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY c COLLATE BINARY, b DESC, c, a, b, c, a, b, c ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY c DESC, a ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY c COLLATE NOCASE ;
+SELECT a,b,c FROM t1 WHERE b<'d' INTERSECT SELECT a,b,c FROM t1
+    ORDER BY c ;
+SELECT a,b,c FROM t3 INTERSECT SELECT a,b,c FROM t1 WHERE b<'d'
+    ORDER BY c COLLATE NOCASE ;
+SELECT a,b,c FROM t1 WHERE b<'d' INTERSECT SELECT a,b,c FROM t3
+    ORDER BY c ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t3 WHERE b<'d'
+    ORDER BY c DESC, a ;
+SELECT a,b,c FROM t1 EXCEPT SELECT a,b,c FROM t1 WHERE b<'d'
+    INTERSECT SELECT a,b,c FROM t3
+    EXCEPT SELECT b,c,a FROM t3
+    ORDER BY c DESC, a ;
+SELECT a,b,c FROM t1 INTERSECT SELECT a,b,c FROM t1 WHERE b<'d'
+    INTERSECT SELECT a,b,c FROM t3
+    EXCEPT SELECT b,c,a FROM t3
+    ORDER BY c COLLATE NOCASE ;
+SELECT a,b,c FROM t1 WHERE b<'d' INTERSECT SELECT a,b,c FROM t1
+    INTERSECT SELECT a,b,c FROM t3
+    EXCEPT SELECT b,c,a FROM t3
+    ORDER BY c ;
+SELECT a,b,c FROM t1 WHERE b<'d'
+    INTERSECT SELECT a,b,c FROM t1
+    INTERSECT SELECT a,b,c FROM t3
+    EXCEPT SELECT b,c,a FROM t3
+    INTERSECT SELECT a,b,c FROM t1
+    EXCEPT SELECT x,y,z FROM t2
+    INTERSECT SELECT a,b,c FROM t3
+    EXCEPT SELECT y,x,z FROM t2
+    INTERSECT SELECT a,b,c FROM t1
+    EXCEPT SELECT c,b,a FROM t3
+    ORDER BY c ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY a,b,c ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY a DESC,b,c ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY a,c,b ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY b,a,c ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY b COLLATE NOCASE,a,c ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY b COLLATE NOCASE DESC,a,c ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY c,b,a ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY c,a,b ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY c DESC,a,b ;
+SELECT a,b,c FROM t3 UNION SELECT x,y,z FROM t2
+    ORDER BY c COLLATE BINARY DESC,a,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY a,b,c ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY a DESC,b,c ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY a,c,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY b,a,c ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY y COLLATE NOCASE,x,z ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY y COLLATE NOCASE DESC,x,z ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY c,b,a ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY c,a,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY c DESC,a,b ;
+SELECT x,y,z FROM t2 UNION SELECT a,b,c FROM t3
+    ORDER BY z COLLATE BINARY DESC,x,y ;
+SELECT x,y,z FROM t2
+    INTERSECT SELECT a,b,c FROM t3
+    EXCEPT SELECT c,b,a FROM t1
+    UNION SELECT a,b,c FROM t3
+    INTERSECT SELECT a,b,c FROM t3
+    EXCEPT SELECT c,b,a FROM t1
+    UNION SELECT a,b,c FROM t3
+    ORDER BY y COLLATE NOCASE DESC,x,z ;
+SELECT upper((SELECT c FROM t1 UNION SELECT z FROM t2 ORDER BY 1)); ;
+SELECT lower((SELECT c FROM t1 UNION ALL SELECT z FROM t2 ORDER BY 1)); ;
+SELECT lower((SELECT c FROM t1 INTERSECT SELECT z FROM t2 ORDER BY 1)); ;
+SELECT lower((SELECT z FROM t2 EXCEPT SELECT c FROM t1 ORDER BY 1)); ;
+SELECT upper((SELECT x FROM (
+      SELECT x,y,z FROM t2
+      INTERSECT SELECT a,b,c FROM t3
+      EXCEPT SELECT c,b,a FROM t1
+      UNION SELECT a,b,c FROM t3
+      INTERSECT SELECT a,b,c FROM t3
+      EXCEPT SELECT c,b,a FROM t1
+      UNION SELECT a,b,c FROM t3
+      ORDER BY y COLLATE NOCASE DESC,x,z))) ;
+SELECT DISTINCT * FROM
+        (SELECT c FROM t1 UNION ALL SELECT e FROM t2)
+      ORDER BY 1; ;
+SELECT c, count(*) FROM
+        (SELECT c FROM t1 UNION ALL SELECT e FROM t2)
+      GROUP BY c ORDER BY 1; ;
+SELECT c, count(*) FROM
+        (SELECT c FROM t1 UNION ALL SELECT e FROM t2)
+      GROUP BY c HAVING count(*)>1; ;
+SELECT t4.c, t3.a FROM
+        (SELECT c FROM t1 UNION ALL SELECT e FROM t2) AS t4, t1 AS t3
+      WHERE t3.a=14
+      ORDER BY 1 ;
+SELECT d FROM t2
+      EXCEPT
+      SELECT a FROM (SELECT a FROM t1 UNION ALL SELECT d FROM t2) ;
+SELECT * FROM (SELECT a FROM t1 UNION ALL SELECT d FROM t2)
+      EXCEPT
+      SELECT * FROM (SELECT a FROM t1 UNION ALL SELECT d FROM t2) ;
+SELECT c FROM t1
+      EXCEPT
+      SELECT * FROM (SELECT e FROM t2 UNION ALL SELECT f FROM t2) ;
+SELECT * FROM (SELECT e FROM t2 UNION ALL SELECT f FROM t2)
+      EXCEPT
+      SELECT c FROM t1 ;
+SELECT * FROM (SELECT e FROM t2 UNION ALL SELECT f FROM t2)
+      EXCEPT
+      SELECT c FROM t1
+      ORDER BY c DESC ;
+SELECT * FROM (SELECT e FROM t2 UNION ALL SELECT f FROM t2)
+      UNION
+      SELECT c FROM t1
+      ORDER BY c DESC ;
+SELECT c FROM t1
+      UNION
+      SELECT * FROM (SELECT e FROM t2 UNION ALL SELECT f FROM t2)
+      ORDER BY c ;
+SELECT c FROM t1 UNION SELECT e FROM t2 UNION ALL SELECT f FROM t2
+      ORDER BY c ;
+SELECT * FROM (SELECT e FROM t2 UNION ALL SELECT f FROM t2)
+      UNION
+      SELECT * FROM (SELECT e FROM t2 UNION ALL SELECT f FROM t2)
+      ORDER BY 1 ;
+SELECT c FROM t1
+      INTERSECT
+      SELECT * FROM (SELECT e FROM t2 UNION ALL SELECT f FROM t2)
+      ORDER BY 1 ;
+SELECT * FROM (SELECT e FROM t2 UNION ALL SELECT f FROM t2)
+      INTERSECT
+      SELECT c FROM t1
+      ORDER BY 1 ;
+SELECT * FROM (SELECT e FROM t2 UNION ALL SELECT f FROM t2)
+      INTERSECT
+      SELECT * FROM (SELECT e FROM t2 UNION ALL SELECT f FROM t2)
+      ORDER BY 1 ;
+SELECT * FROM (
+        SELECT a FROM t1 UNION ALL SELECT d FROM t2 LIMIT 4
+      ) LIMIT 2 ;
+SELECT * FROM (
+        SELECT a FROM t1 UNION ALL SELECT d FROM t2 LIMIT 4 OFFSET 2
+      ) LIMIT 2 ;
+SELECT * FROM (
+        SELECT DISTINCT (a/10) FROM t1 UNION ALL SELECT DISTINCT(d%2) FROM t2
+      ) ;
+SELECT DISTINCT * FROM (
+        SELECT DISTINCT (a/10) FROM t1 UNION ALL SELECT DISTINCT(d%2) FROM t2
+      ) ;
+SELECT * FROM (SELECT * FROM t1 UNION ALL SELECT * FROM t2) ORDER BY a+b ;
+SELECT * FROM (SELECT 345 UNION ALL SELECT d FROM t2) ORDER BY 1; ;
+SELECT x, y FROM (
+        SELECT a AS x, b AS y FROM t1
+        UNION ALL
+        SELECT a*10 + 0.1, f*10 + 0.1 FROM t1 JOIN t2 ON (c=d)
+        UNION ALL
+        SELECT a*100, b*100 FROM t1
+      ) ORDER BY 1; ;
+SELECT x, y FROM (
+        SELECT a AS x, b AS y FROM t1
+        UNION ALL
+        SELECT a*10 + 0.1, f*10 + 0.1 FROM t1 LEFT JOIN t2 ON (c=d)
+        UNION ALL
+        SELECT a*100, b*100 FROM t1
+      ) ORDER BY 1; ;
+SELECT x+y FROM (
+        SELECT a AS x, b AS y FROM t1
+        UNION ALL
+        SELECT a*10 + 0.1, f*10 + 0.1 FROM t1 LEFT JOIN t2 ON (c=d)
+        UNION ALL
+        SELECT a*100, b*100 FROM t1
+      ) WHERE y+x NOT NULL ORDER BY 1; ;
+SELECT DISTINCT a AS x, b||c AS y
+      FROM t1
+     WHERE y IN ('aaabbb','xxx'); ;
+SELECT DISTINCT a AS x, b||c AS y
+      FROM t1
+     WHERE b||c IN ('aaabbb','xxx'); ;
+SELECT DISTINCT a AS x, b||c AS y
+      FROM t1
+     WHERE y='aaabbb' ;
+SELECT DISTINCT a AS x, b||c AS y
+      FROM t1
+     WHERE b||c='aaabbb' ;
+SELECT DISTINCT a AS x, b||c AS y
+      FROM t1
+     WHERE x=2 ;
+SELECT DISTINCT a AS x, b||c AS y
+      FROM t1
+     WHERE a=2 ;
+SELECT DISTINCT a AS x, b||c AS y
+      FROM t1
+     WHERE +y='aaabbb' ;
+SELECT a AS x, b||c AS y
+      FROM t1
+     GROUP BY x, y
+    HAVING y='aaabbb' ;
+SELECT a AS x, b||c AS y
+      FROM t1
+     GROUP BY x, y
+    HAVING b||c='aaabbb' ;
+SELECT a AS x, b||c AS y
+      FROM t1
+     WHERE y='aaabbb'
+     GROUP BY x, y ;
+SELECT a AS x, b||c AS y
+      FROM t1
+     WHERE b||c='aaabbb'
+     GROUP BY x, y ;
+SELECT DISTINCT upper(b) AS x
+      FROM t1
+     ORDER BY x ;
+SELECT DISTINCT uppercaseconversionfunctionwithaverylongname(b) AS x
+      FROM t1
+     ORDER BY x ;
+SELECT upper(b) AS x
+      FROM t1
+     GROUP BY x
+     ORDER BY x ;
+SELECT uppercaseconversionfunctionwithaverylongname(b) AS x
+      FROM t1
+     GROUP BY x
+     ORDER BY x ;
+SELECT upper(b) AS x
+      FROM t1
+     ORDER BY x DESC ;
+SELECT uppercaseconversionfunctionwithaverylongname(b) AS x
+      FROM t1
+     ORDER BY x DESC ;
+SELECT
+      org_id,
+      count((NOT (org_id IS NULL)) AND (NOT (nickname IS NULL)))
+    FROM person
+    WHERE (CASE WHEN license != '' THEN 1 ELSE 0 END)
+    GROUP BY 1; ;
+SELECT a, max(b || a) FROM t2 WHERE (b||b||b)!='value' GROUP BY a; ;
+SELECT b, max(a || b) FROM t2 WHERE (b||b||b)!='value' GROUP BY a; ;
+SELECT *
+        FROM (t1), (t2), (t3), (t4)
+       WHERE t4.a=t3.a+111
+         AND t3.a=t2.a+111
+         AND t2.a=t1.a+111; ;
+SELECT *
+        FROM t1 JOIN (t2 JOIN (t3 JOIN t4 ON t4.a=t3.a+111)
+                              ON t3.a=t2.a+111)
+                     ON t2.a=t1.a+111; ;
+SELECT t3.a
+        FROM t1 JOIN (t2 JOIN (t3 JOIN t4 ON t4.a=t3.a+111)
+                              ON t3.a=t2.a+111)
+                     ON t2.a=t1.a+111; ;
+SELECT t3.*
+        FROM t1 JOIN (t2 JOIN (t3 JOIN t4 ON t4.a=t3.a+111)
+                              ON t3.a=t2.a+111)
+                     ON t2.a=t1.a+111; ;
+SELECT t3.*, t2.*
+        FROM t1 JOIN (t2 JOIN (t3 JOIN t4 ON t4.a=t3.a+111)
+                              ON t3.a=t2.a+111)
+                     ON t2.a=t1.a+111; ;
+SELECT *
+        FROM t1 JOIN (t2 JOIN (main.t4 JOIN aux1.t4 ON aux1.t4.a=main.t4.a+111)
+                              ON main.t4.a=t2.a+222)
+                     ON t2.a=t1.a+111; ;
+SELECT *
+        FROM t1 JOIN (t2 JOIN (main.t4 AS x JOIN aux1.t4 ON aux1.t4.a=x.a+111)
+                              ON x.a=t2.a+222)
+                     ON t2.a=t1.a+111; ;
+SELECT x.a, y.b
+        FROM t1 JOIN (t2 JOIN (main.t4 x JOIN aux1.t4 y ON y.a=x.a+111)
+                              ON x.a=t2.a+222)
+                     ON t2.a=t1.a+111; ;
+SELECT t1.*, t2.*, t3.*, t4.b
+        FROM (t1 LEFT JOIN t2 USING(a)) JOIN (t3 LEFT JOIN t4 USING(a))
+             ON t1.a=t3.a-111; ;
+SELECT a FROM t1 EXCEPT SELECT a FROM t2
+     ORDER BY a COLLATE nocase; ;
+SELECT a FROM t2 EXCEPT SELECT a FROM t3
+     ORDER BY a COLLATE nocase; ;
+SELECT a FROM t2 EXCEPT SELECT a FROM t3
+     ORDER BY a COLLATE binary; ;
+SELECT a FROM t2 EXCEPT SELECT a FROM t3
+     ORDER BY a; ;
+SELECT a COLLATE nocase FROM t2 EXCEPT SELECT a FROM t3
+     ORDER BY 1 ;
+SELECT a COLLATE nocase FROM t2 EXCEPT SELECT a FROM t3
+     ORDER BY 1 COLLATE binary ;
+SELECT count(x), sum(x), avg(x), $microsec<10000000 FROM t1; ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, tn ;
+SELECT name FROM album CROSS JOIN track USING (aid) ORDER BY title, tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY +title, +tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY +title, +tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title DESC, tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY +title DESC, +tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title DESC, tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, tn DESC ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY +title, +tn DESC ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, tn DESC ;
+SELECT name FROM album CROSS JOIN track USING (aid)
+     ORDER BY title DESC, tn DESC ;
+SELECT name FROM album CROSS JOIN track USING (aid)
+     ORDER BY +title DESC, +tn DESC ;
+SELECT name FROM album CROSS JOIN track USING (aid)
+     ORDER BY title DESC, tn DESC ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, aid, tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, aid, tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY +title, +tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY +title, +tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title DESC, tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY +title DESC, +tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title DESC, tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, tn DESC ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY +title, +tn DESC ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, tn DESC ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title DESC, tn DESC ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY +title DESC, +tn DESC ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title DESC, tn DESC ;
+SELECT name FROM album CROSS JOIN track USING (aid) ORDER BY title, tn DESC ;
+SELECT name FROM album CROSS JOIN track USING (aid) ORDER BY title, tn DESC ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY +title, +tn DESC ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY +title, +tn DESC ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, tn DESC ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, tn DESC ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY +title, +tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title, tn ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title DESC, tn DESC ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY +title DESC, +tn DESC ;
+SELECT name FROM album JOIN track USING (aid) ORDER BY title DESC, tn DESC ;
+SELECT name FROM album CROSS JOIN track USING (aid) ORDER BY title DESC, tn ;
+SELECT name FROM album CROSS JOIN track USING (aid)
+     ORDER BY +title DESC, +tn ;
+SELECT name FROM album CROSS JOIN track USING (aid) ORDER BY title DESC, tn ;
+SELECT b, y FROM t41 CROSS JOIN t42 ON x=a ORDER BY b, y; ;
+SELECT * FROM t1 ORDER BY a, b ;
+SELECT e FROM t1, t2 WHERE a=1 AND d=b ORDER BY d, e; ;
+SELECT e FROM t1, t2 WHERE a=1 AND d=b ORDER BY d, e; ;
+SELECT e FROM t1, t2 WHERE a=1 AND d=b ORDER BY e; ;
+SELECT e FROM t1, t2 WHERE a=1 AND d=b ORDER BY e; ;
+SELECT e, b FROM t1, t2 WHERE a=1 ORDER BY d, e; ;
+SELECT e, b FROM t1, t2 WHERE a=1 ORDER BY d, e; ;
+SELECT a||','||c||','||e||','||g FROM t31, t32, t33, t34
+     WHERE c=b AND e=d AND g=f
+     ORDER BY a ASC, c ASC, e DESC, g ASC; ;
+SELECT a||','||c||','||e||','||g FROM t31, t32, t33, t34
+     WHERE c=b AND e=d AND g=f
+     ORDER BY +a ASC, +c ASC, +e DESC, +g ASC; ;
+SELECT a||','||c||','||e||','||g FROM t31, t32, t33, t34
+     WHERE c=b AND e=d AND g=f
+     ORDER BY a ASC, c ASC, e ASC, g ASC; ;
+SELECT a||','||c||','||e||','||g FROM t31, t32, t33, t34
+     WHERE c=b AND e=d AND g=f
+     ORDER BY a ASC, c ASC, e ASC, g ASC; ;
+WITH RECURSIVE
+       cnt(x) AS (VALUES(1) UNION ALL SELECT x+1 FROM cnt WHERE x<1000)
+
+SELECT b,a,c FROM t1 ORDER BY +b,+a,+c ;
+SELECT b,a,c FROM t1 ORDER BY +b,+c DESC,+a ;
+SELECT b,a,c FROM t1 ORDER BY +b DESC,+c,+a ;
+SELECT b,a,c FROM t1 ORDER BY +b DESC,+a,+c ;
+WITH RECURSIVE
+       cnt(x) AS (VALUES(0) UNION ALL SELECT x+1 FROM cnt WHERE x<242)
+
+SELECT a FROM t2 ORDER BY +b,+c,+d,+e,+f; ;
+SELECT a FROM t2 ORDER BY +b,+c,+d,+e,+f; ;
+SELECT a FROM t2 ORDER BY +b,+c,+d,+e,+f; ;
+SELECT a FROM t2 ORDER BY +b,+c,+d,+e,+f; ;
+SELECT a FROM t2 ORDER BY +b,+c,+d,+e,+f; ;
+SELECT a FROM t2 ORDER BY +b,+c,+d,+e,+f DESC; ;
+SELECT a FROM t2 ORDER BY +b,+c,+d,+e DESC,+f; ;
+SELECT a FROM t2 ORDER BY +b,+c,+d DESC,+e,+f; ;
+SELECT a FROM t2 ORDER BY +b,+c DESC,+d,+e,+f; ;
+SELECT a FROM t2 ORDER BY +b DESC,+c,+d,+e,+f; ;
+SELECT a FROM t2 ORDER BY +b DESC,+c DESC,+d,+e,+f LIMIT 31 ;
+SELECT a FROM t2 ORDER BY +b,+c,+d,+e,+f DESC LIMIT 8 OFFSET 7 ;
+SELECT random() AS y FROM t1 ORDER BY 1; ;
+SELECT random() AS y FROM t1 ORDER BY random(); ;
+SELECT random() AS y FROM t1 ORDER BY +random(); ;
+SELECT count(*) FROM t1; ;
+SELECT x FROM t1 WHERE x LIKE 'abc' ORDER BY 1; ;
+SELECT x FROM t1 WHERE x GLOB 'abc' ORDER BY 1; ;
+SELECT x FROM t1 WHERE x LIKE 'ABC' ORDER BY 1; ;
+SELECT x FROM t1 WHERE x LIKE 'aBc' ORDER BY 1; ;
+SELECT x FROM t1 WHERE x LIKE 'abc' ORDER BY 1; ;
+SELECT x FROM t1 WHERE x LIKE 'abc' ORDER BY 1; ;
+SELECT x FROM t1 WHERE x GLOB 'abc' ORDER BY 1; ;
+SELECT x FROM t1 WHERE x LIKE 'ABC' ORDER BY 1; ;
+SELECT x FROM t1 WHERE x LIKE 'aBc' ORDER BY 1; ;
+
+    SELECT x FROM t1 WHERE x LIKE 'abc' ORDER BY 1; ;
+  -- No argument, does not change setting.
+    SELECT x FROM t1 WHERE x LIKE 'abc' ORDER BY 1; ;
+SELECT x FROM t1 WHERE x REGEXP 'abc' ORDER BY 1; ;
+SELECT x FROM t1 WHERE x REGEXP '^abc' ORDER BY 1; ;
+SELECT x FROM t1 WHERE x MATCH '*abc*' ORDER BY 1; ;
+SELECT x FROM t1 WHERE x MATCH 'abc*' ORDER BY 1; ;
+SELECT * FROM t2 WHERE x LIKE '''a%' ;
+SELECT rowid, * FROM t1 WHERE rowid GLOB '1*' ORDER BY rowid; ;
+SELECT 1, x FROM t8 WHERE x LIKE '%h%';
+SELECT 2, x FROM t8 WHERE x LIKE '%h%' ESCAPE 'x'; ;
+SELECT 1, x FROM t8 WHERE x LIKE '%h%';
+SELECT 2, x FROM t8 WHERE x LIKE '%h%' ESCAPE 'x'; ;
+SELECT 1, x FROM t8 WHERE x LIKE '%h%';
+SELECT 2, x FROM t8 WHERE x LIKE '%h%' ESCAPE 'x'; ;
+SELECT 1, x FROM t8 WHERE x LIKE '%h%';
+SELECT 2, x FROM t8 WHERE x LIKE '%h%' ESCAPE 'x'; ;
+SELECT count(*) FROM t11; ;
+SELECT count(*) FROM t2; ;
+SELECT count(*) FROM t2; ;
+SELECT x FROM t1 WHERE y LIKE ' %' ;
+SELECT x FROM t2 WHERE y LIKE ' %' ;
+SELECT x FROM t3 WHERE y LIKE 'abc %' ;
+SELECT x FROM t1 WHERE y LIKE '!%' ;
+SELECT x FROM t2 WHERE y LIKE '!%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc!%' ;
+SELECT x FROM t1 WHERE y LIKE '#%' ;
+SELECT x FROM t2 WHERE y LIKE '#%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc#%' ;
+SELECT x FROM t1 WHERE y LIKE '\$%' ;
+SELECT x FROM t2 WHERE y LIKE '\$%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc\$%' ;
+SELECT x FROM t1 WHERE y LIKE '&%' ;
+SELECT x FROM t2 WHERE y LIKE '&%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc&%' ;
+SELECT x FROM t1 WHERE y LIKE '''%' ;
+SELECT x FROM t2 WHERE y LIKE '''%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc''%' ;
+SELECT x FROM t1 WHERE y LIKE '(%' ;
+SELECT x FROM t2 WHERE y LIKE '(%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc(%' ;
+SELECT x FROM t1 WHERE y LIKE ')%' ;
+SELECT x FROM t2 WHERE y LIKE ')%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc)%' ;
+SELECT x FROM t1 WHERE y LIKE '*%' ;
+SELECT x FROM t2 WHERE y LIKE '*%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc*%' ;
+SELECT x FROM t1 WHERE y LIKE '+%' ;
+SELECT x FROM t2 WHERE y LIKE '+%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc+%' ;
+SELECT x FROM t1 WHERE y LIKE ',%' ;
+SELECT x FROM t2 WHERE y LIKE ',%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc,%' ;
+SELECT x FROM t1 WHERE y LIKE '-%' ;
+SELECT x FROM t2 WHERE y LIKE '-%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc-%' ;
+SELECT x FROM t1 WHERE y LIKE '.%' ;
+SELECT x FROM t2 WHERE y LIKE '.%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc.%' ;
+SELECT x FROM t1 WHERE y LIKE '/%' ;
+SELECT x FROM t2 WHERE y LIKE '/%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc/%' ;
+SELECT x FROM t1 WHERE y LIKE '0%' ;
+SELECT x FROM t2 WHERE y LIKE '0%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc0%' ;
+SELECT x FROM t1 WHERE y LIKE '1%' ;
+SELECT x FROM t2 WHERE y LIKE '1%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc1%' ;
+SELECT x FROM t1 WHERE y LIKE '2%' ;
+SELECT x FROM t2 WHERE y LIKE '2%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc2%' ;
+SELECT x FROM t1 WHERE y LIKE '3%' ;
+SELECT x FROM t2 WHERE y LIKE '3%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc3%' ;
+SELECT x FROM t1 WHERE y LIKE '4%' ;
+SELECT x FROM t2 WHERE y LIKE '4%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc4%' ;
+SELECT x FROM t1 WHERE y LIKE '5%' ;
+SELECT x FROM t2 WHERE y LIKE '5%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc5%' ;
+SELECT x FROM t1 WHERE y LIKE '6%' ;
+SELECT x FROM t2 WHERE y LIKE '6%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc6%' ;
+SELECT x FROM t1 WHERE y LIKE '7%' ;
+SELECT x FROM t2 WHERE y LIKE '7%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc7%' ;
+SELECT x FROM t1 WHERE y LIKE '8%' ;
+SELECT x FROM t2 WHERE y LIKE '8%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc8%' ;
+SELECT x FROM t1 WHERE y LIKE '9%' ;
+SELECT x FROM t2 WHERE y LIKE '9%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc9%' ;
+SELECT x FROM t1 WHERE y LIKE ':%' ;
+SELECT x FROM t2 WHERE y LIKE ':%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc:%' ;
+SELECT x FROM t1 WHERE y LIKE ';%' ;
+SELECT x FROM t2 WHERE y LIKE ';%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc;%' ;
+SELECT x FROM t1 WHERE y LIKE '<%' ;
+SELECT x FROM t2 WHERE y LIKE '<%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc<%' ;
+SELECT x FROM t1 WHERE y LIKE '=%' ;
+SELECT x FROM t2 WHERE y LIKE '=%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc=%' ;
+SELECT x FROM t1 WHERE y LIKE '>%' ;
+SELECT x FROM t2 WHERE y LIKE '>%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc>%' ;
+SELECT x FROM t1 WHERE y LIKE '?%' ;
+SELECT x FROM t2 WHERE y LIKE '?%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc?%' ;
+SELECT x FROM t1 WHERE y LIKE '@%' ;
+SELECT x FROM t2 WHERE y LIKE '@%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc@%' ;
+SELECT x FROM t1 WHERE y LIKE 'A%' ;
+SELECT x FROM t2 WHERE y LIKE 'A%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcA%' ;
+SELECT x FROM t1 WHERE y LIKE 'B%' ;
+SELECT x FROM t2 WHERE y LIKE 'B%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcB%' ;
+SELECT x FROM t1 WHERE y LIKE 'C%' ;
+SELECT x FROM t2 WHERE y LIKE 'C%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcC%' ;
+SELECT x FROM t1 WHERE y LIKE 'D%' ;
+SELECT x FROM t2 WHERE y LIKE 'D%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcD%' ;
+SELECT x FROM t1 WHERE y LIKE 'E%' ;
+SELECT x FROM t2 WHERE y LIKE 'E%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcE%' ;
+SELECT x FROM t1 WHERE y LIKE 'F%' ;
+SELECT x FROM t2 WHERE y LIKE 'F%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcF%' ;
+SELECT x FROM t1 WHERE y LIKE 'G%' ;
+SELECT x FROM t2 WHERE y LIKE 'G%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcG%' ;
+SELECT x FROM t1 WHERE y LIKE 'H%' ;
+SELECT x FROM t2 WHERE y LIKE 'H%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcH%' ;
+SELECT x FROM t1 WHERE y LIKE 'I%' ;
+SELECT x FROM t2 WHERE y LIKE 'I%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcI%' ;
+SELECT x FROM t1 WHERE y LIKE 'J%' ;
+SELECT x FROM t2 WHERE y LIKE 'J%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcJ%' ;
+SELECT x FROM t1 WHERE y LIKE 'K%' ;
+SELECT x FROM t2 WHERE y LIKE 'K%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcK%' ;
+SELECT x FROM t1 WHERE y LIKE 'L%' ;
+SELECT x FROM t2 WHERE y LIKE 'L%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcL%' ;
+SELECT x FROM t1 WHERE y LIKE 'M%' ;
+SELECT x FROM t2 WHERE y LIKE 'M%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcM%' ;
+SELECT x FROM t1 WHERE y LIKE 'N%' ;
+SELECT x FROM t2 WHERE y LIKE 'N%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcN%' ;
+SELECT x FROM t1 WHERE y LIKE 'O%' ;
+SELECT x FROM t2 WHERE y LIKE 'O%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcO%' ;
+SELECT x FROM t1 WHERE y LIKE 'P%' ;
+SELECT x FROM t2 WHERE y LIKE 'P%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcP%' ;
+SELECT x FROM t1 WHERE y LIKE 'Q%' ;
+SELECT x FROM t2 WHERE y LIKE 'Q%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcQ%' ;
+SELECT x FROM t1 WHERE y LIKE 'R%' ;
+SELECT x FROM t2 WHERE y LIKE 'R%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcR%' ;
+SELECT x FROM t1 WHERE y LIKE 'S%' ;
+SELECT x FROM t2 WHERE y LIKE 'S%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcS%' ;
+SELECT x FROM t1 WHERE y LIKE 'T%' ;
+SELECT x FROM t2 WHERE y LIKE 'T%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcT%' ;
+SELECT x FROM t1 WHERE y LIKE 'U%' ;
+SELECT x FROM t2 WHERE y LIKE 'U%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcU%' ;
+SELECT x FROM t1 WHERE y LIKE 'V%' ;
+SELECT x FROM t2 WHERE y LIKE 'V%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcV%' ;
+SELECT x FROM t1 WHERE y LIKE 'W%' ;
+SELECT x FROM t2 WHERE y LIKE 'W%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcW%' ;
+SELECT x FROM t1 WHERE y LIKE 'X%' ;
+SELECT x FROM t2 WHERE y LIKE 'X%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcX%' ;
+SELECT x FROM t1 WHERE y LIKE 'Y%' ;
+SELECT x FROM t2 WHERE y LIKE 'Y%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcY%' ;
+SELECT x FROM t1 WHERE y LIKE 'Z%' ;
+SELECT x FROM t2 WHERE y LIKE 'Z%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcZ%' ;
+SELECT x FROM t1 WHERE y LIKE '\[%' ;
+SELECT x FROM t2 WHERE y LIKE '\[%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc\[%' ;
+SELECT x FROM t1 WHERE y LIKE '\\%' ;
+SELECT x FROM t2 WHERE y LIKE '\\%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc\\%' ;
+SELECT x FROM t1 WHERE y LIKE '\]%' ;
+SELECT x FROM t2 WHERE y LIKE '\]%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc\]%' ;
+SELECT x FROM t1 WHERE y LIKE '^%' ;
+SELECT x FROM t2 WHERE y LIKE '^%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc^%' ;
+SELECT x FROM t1 WHERE y LIKE '`%' ;
+SELECT x FROM t2 WHERE y LIKE '`%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc`%' ;
+SELECT x FROM t1 WHERE y LIKE 'a%' ;
+SELECT x FROM t2 WHERE y LIKE 'a%' ;
+SELECT x FROM t3 WHERE y LIKE 'abca%' ;
+SELECT x FROM t1 WHERE y LIKE 'b%' ;
+SELECT x FROM t2 WHERE y LIKE 'b%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcb%' ;
+SELECT x FROM t1 WHERE y LIKE 'c%' ;
+SELECT x FROM t2 WHERE y LIKE 'c%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcc%' ;
+SELECT x FROM t1 WHERE y LIKE 'd%' ;
+SELECT x FROM t2 WHERE y LIKE 'd%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcd%' ;
+SELECT x FROM t1 WHERE y LIKE 'e%' ;
+SELECT x FROM t2 WHERE y LIKE 'e%' ;
+SELECT x FROM t3 WHERE y LIKE 'abce%' ;
+SELECT x FROM t1 WHERE y LIKE 'f%' ;
+SELECT x FROM t2 WHERE y LIKE 'f%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcf%' ;
+SELECT x FROM t1 WHERE y LIKE 'g%' ;
+SELECT x FROM t2 WHERE y LIKE 'g%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcg%' ;
+SELECT x FROM t1 WHERE y LIKE 'h%' ;
+SELECT x FROM t2 WHERE y LIKE 'h%' ;
+SELECT x FROM t3 WHERE y LIKE 'abch%' ;
+SELECT x FROM t1 WHERE y LIKE 'i%' ;
+SELECT x FROM t2 WHERE y LIKE 'i%' ;
+SELECT x FROM t3 WHERE y LIKE 'abci%' ;
+SELECT x FROM t1 WHERE y LIKE 'j%' ;
+SELECT x FROM t2 WHERE y LIKE 'j%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcj%' ;
+SELECT x FROM t1 WHERE y LIKE 'k%' ;
+SELECT x FROM t2 WHERE y LIKE 'k%' ;
+SELECT x FROM t3 WHERE y LIKE 'abck%' ;
+SELECT x FROM t1 WHERE y LIKE 'l%' ;
+SELECT x FROM t2 WHERE y LIKE 'l%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcl%' ;
+SELECT x FROM t1 WHERE y LIKE 'm%' ;
+SELECT x FROM t2 WHERE y LIKE 'm%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcm%' ;
+SELECT x FROM t1 WHERE y LIKE 'n%' ;
+SELECT x FROM t2 WHERE y LIKE 'n%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcn%' ;
+SELECT x FROM t1 WHERE y LIKE 'o%' ;
+SELECT x FROM t2 WHERE y LIKE 'o%' ;
+SELECT x FROM t3 WHERE y LIKE 'abco%' ;
+SELECT x FROM t1 WHERE y LIKE 'p%' ;
+SELECT x FROM t2 WHERE y LIKE 'p%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcp%' ;
+SELECT x FROM t1 WHERE y LIKE 'q%' ;
+SELECT x FROM t2 WHERE y LIKE 'q%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcq%' ;
+SELECT x FROM t1 WHERE y LIKE 'r%' ;
+SELECT x FROM t2 WHERE y LIKE 'r%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcr%' ;
+SELECT x FROM t1 WHERE y LIKE 's%' ;
+SELECT x FROM t2 WHERE y LIKE 's%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcs%' ;
+SELECT x FROM t1 WHERE y LIKE 't%' ;
+SELECT x FROM t2 WHERE y LIKE 't%' ;
+SELECT x FROM t3 WHERE y LIKE 'abct%' ;
+SELECT x FROM t1 WHERE y LIKE 'u%' ;
+SELECT x FROM t2 WHERE y LIKE 'u%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcu%' ;
+SELECT x FROM t1 WHERE y LIKE 'v%' ;
+SELECT x FROM t2 WHERE y LIKE 'v%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcv%' ;
+SELECT x FROM t1 WHERE y LIKE 'w%' ;
+SELECT x FROM t2 WHERE y LIKE 'w%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcw%' ;
+SELECT x FROM t1 WHERE y LIKE 'x%' ;
+SELECT x FROM t2 WHERE y LIKE 'x%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcx%' ;
+SELECT x FROM t1 WHERE y LIKE 'y%' ;
+SELECT x FROM t2 WHERE y LIKE 'y%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcy%' ;
+SELECT x FROM t1 WHERE y LIKE 'z%' ;
+SELECT x FROM t2 WHERE y LIKE 'z%' ;
+SELECT x FROM t3 WHERE y LIKE 'abcz%' ;
+SELECT x FROM t1 WHERE y LIKE '\173%' ;
+SELECT x FROM t2 WHERE y LIKE '\173%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc\173%' ;
+SELECT x FROM t1 WHERE y LIKE '|%' ;
+SELECT x FROM t2 WHERE y LIKE '|%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc|%' ;
+SELECT x FROM t1 WHERE y LIKE '\175%' ;
+SELECT x FROM t2 WHERE y LIKE '\175%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc\175%' ;
+SELECT x FROM t1 WHERE y LIKE '~%' ;
+SELECT x FROM t2 WHERE y LIKE '~%' ;
+SELECT x FROM t3 WHERE y LIKE 'abc~%' ;
+SELECT a, (SELECT y FROM t2 WHERE x=a) FROM t1 WHERE b<8 ;
+SELECT b FROM t1 WHERE EXISTS(SELECT * FROM t2 WHERE y=a) ;
+SELECT b FROM t1 WHERE NOT EXISTS(SELECT * FROM t2 WHERE y=a) ;
+SELECT a, x FROM t1, t2 WHERE t1.a = (SELECT x); ;
+SELECT a, x FROM t1, t2 WHERE t1.a = (SELECT x); ;
+SELECT a, x FROM t2, t1 WHERE t1.a = (SELECT x); ;
+SELECT count(*) FROM t1 WHERE a > (SELECT count(*) FROM t2); ;
+SELECT (y*2)>b FROM t1, t2 WHERE a=x; ;
+SELECT a FROM t1 WHERE (SELECT (y*2)>b FROM t2 WHERE a=x); ;
+SELECT (SELECT a), b FROM t1; ;
+SELECT * FROM (SELECT (SELECT a), b FROM t1); ;
+SELECT * FROM (SELECT (SELECT sum(a) FROM t1)); ;
+SELECT period, vsum
+    FROM (SELECT
+      a.period,
+      (select sum(val) from t5 where period between a.period and '2002-4') vsum
+      FROM t5 a where a.period between '2002-1' and '2002-4')
+    WHERE vsum < 45 ; ;
+SELECT period, vsum from
+      (select a.period,
+      (select sum(val) from t5 where period between a.period and '2002-4') vsum
+    FROM t5 a where a.period between '2002-1' and '2002-4')
+    WHERE vsum < 45 ; ;
+
+SELECT (SELECT 10); ;
+SELECT * FROM t3 WHERE a IN (SELECT b FROM t3); ;
+SELECT a IN (10.0, 20) FROM t3; ;
+SELECT count(*) FROM t3 WHERE a IN (SELECT 'XX') ;
+SELECT * FROM t4 WHERE x IN (SELECT a FROM t3); ;
+SELECT * FROM t4 WHERE x IN (SELECT a FROM t3); ;
+SELECT * FROM t4 WHERE x IN (SELECT a FROM t3); ;
+SELECT * FROM v1 WHERE EXISTS(SELECT * FROM t2 WHERE p=v1.b); ;
+SELECT * FROM v1 WHERE EXISTS(SELECT 1); ;
+SELECT (SELECT t1.a) FROM t1; ;
+SELECT a, (SELECT b) FROM t1 GROUP BY a; ;
+SELECT a, (SELECT d FROM t2 WHERE a=c) FROM t1 GROUP BY a; ;
+SELECT max(a), (SELECT d FROM t2 WHERE a=c) FROM t1; ;
+SELECT a, (SELECT (SELECT d FROM t2 WHERE a=c)) FROM t1 GROUP BY a; ;
+SELECT a, (SELECT count(*) FROM t2 WHERE a=c) FROM t1; ;
+SELECT a.x, avg(a.y)
+      FROM t34 AS a
+     GROUP BY a.x
+     HAVING NOT EXISTS( SELECT b.x, avg(b.y)
+                          FROM t34 AS b
+                         GROUP BY b.x
+                         HAVING avg(a.y) > avg(b.y)); ;
+SELECT a.x, avg(a.y) AS avg1
+      FROM t34 AS a
+     GROUP BY a.x
+     HAVING NOT EXISTS( SELECT b.x, avg(b.y) AS avg2
+                          FROM t34 AS b
+                         GROUP BY b.x
+                         HAVING avg1 > avg2); ;
+SELECT
+       a.x,
+       avg(a.y),
+       NOT EXISTS ( SELECT b.x, avg(b.y)
+                      FROM t34 AS b
+                      GROUP BY b.x
+                     HAVING avg(a.y) > avg(b.y)),
+       EXISTS ( SELECT c.x, avg(c.y)
+                  FROM t34 AS c
+                  GROUP BY c.x
+                 HAVING avg(a.y) > avg(c.y))
+      FROM t34 AS a
+     GROUP BY a.x
+     ORDER BY a.x; ;
+
+SELECT max((SELECT avg(y) FROM t35b)) FROM t35a; ;
+SELECT max((SELECT count(y) FROM t35b)) FROM t35a; ;
+SELECT max((SELECT count() FROM t35b)) FROM t35a; ;
+SELECT max((SELECT a FROM (SELECT count(y) AS a FROM t35b))) FROM t35a; ;
+SELECT (SELECT a FROM t1); ;
+SELECT (SELECT a FROM t1); ;
+SELECT b FROM t5 WHERE a IN
+       (SELECT callcnt(y)+0 FROM t4 WHERE x="two") ;
+SELECT x FROM t4 WHERE 1 IN (SELECT callcnt(count(*)) FROM t5 WHERE a=y) ;
+SELECT x FROM t4 WHERE 1 IN (SELECT callcnt(count(*)) FROM t5 WHERE a=1) ;
+SELECT (SELECT c7+c8 FROM t7) FROM t8; ;
+SELECT (SELECT max(c7)+c8 FROM t7) FROM t8; ;
+SELECT (SELECT c7+max(c8) FROM t8) FROM t7 ;
+SELECT (SELECT max(c7)+max(c8) FROM t8) FROM t7 ;
+SELECT (SELECT c8 FROM t8 WHERE rowid=max(c7)) FROM t7 ;
+SELECT (SELECT (SELECT max(c7+c8+c9) FROM t9) FROM t8) FROM t7 ;
+SELECT (SELECT (SELECT c7+max(c8+c9) FROM t9) FROM t8) FROM t7 ;
+SELECT (SELECT (SELECT max(c7)+c8+c9 FROM t9) FROM t8) FROM t7 ;
+SELECT (SELECT (SELECT c7+max(c8)+c9 FROM t9) FROM t8) FROM t7 ;
+SELECT (SELECT (SELECT c7+c8+max(c9) FROM t9) FROM t8) FROM t7 ;
+SELECT (SELECT (SELECT max(c7)+max(c8)+max(c9) FROM t9) FROM t8) FROM t7 ;
+SELECT a FROM t1
+     WHERE b IN (SELECT x+1 FROM (SELECT DISTINCT f/(a*a) AS x FROM t3)); ;
+
+SELECT a FROM t1
+     WHERE b IN (SELECT x+1 FROM (SELECT DISTINCT f/(a*a) AS x FROM t3)); ;
+SELECT a FROM t1
+     WHERE +b=(SELECT x+1 FROM (SELECT DISTINCT f/(a*a) AS x FROM t3)); ;
+SELECT a FROM t1
+     WHERE b=(SELECT x+1 FROM (SELECT DISTINCT f/(a*a) AS x FROM t3)); ;
+SELECT a FROM t1
+     WHERE +b=(SELECT x+1 FROM
+                 (SELECT DISTINCT f/d AS x FROM t2 JOIN t3 ON d*a=f)) ;
+SELECT a FROM t1
+     WHERE b=(SELECT x+1 FROM
+                 (SELECT DISTINCT f/d AS x FROM t2 JOIN t3 ON d*a=f)) ;
+SELECT * FROM t1 WHERE a = (SELECT count(*) FROM t1) ;
+SELECT * FROM t1 WHERE a = (SELECT * FROM t1) ;
+SELECT b from t1 where a = (SELECT a FROM t1 WHERE b=2) ;
+SELECT b from t1 where a = (SELECT a FROM t1 WHERE b=4) ;
+SELECT b from t1 where a = (SELECT a FROM t1 WHERE b=6) ;
+SELECT b from t1 where a = (SELECT a FROM t1 WHERE b=8) ;
+SELECT b FROM t1
+       WHERE a = (SELECT a FROM t1 UNION SELECT b FROM t1 ORDER BY 1); ;
+SELECT b from t1 where a = coalesce((SELECT a FROM t1 WHERE b=5),1) ;
+SELECT y from t2
+    WHERE x = (SELECT sum(b) FROM t1 where a notnull) - (SELECT sum(a) FROM t1) ;
+SELECT x FROM t2 ORDER BY x ;
+SELECT (SELECT a FROM t1 ORDER BY a), (SELECT a FROM t1 ORDER BY a DESC) ;
+SELECT 1 IN (SELECT a FROM t1 ORDER BY a); ;
+SELECT 2 IN (SELECT a FROM t1 ORDER BY a DESC); ;
+SELECT * FROM t3 ORDER BY x; ;
+SELECT * FROM t3 ORDER BY x; ;
+SELECT sum(x) FROM (SELECT x FROM t3 ORDER BY x LIMIT 2); ;
+SELECT sum(x) FROM (SELECT x FROM t3 ORDER BY x DESC LIMIT 2); ;
+SELECT (SELECT x FROM t3 ORDER BY x); ;
+SELECT (SELECT x FROM t3 ORDER BY x DESC); ;
+SELECT (SELECT x FROM t3 ORDER BY x LIMIT 1); ;
+SELECT (SELECT x FROM t3 ORDER BY x DESC LIMIT 1); ;
+SELECT (SELECT x FROM t3 ORDER BY x LIMIT 1 OFFSET 2); ;
+SELECT (SELECT x FROM t3 ORDER BY x DESC LIMIT 1 OFFSET 2); ;
+SELECT x FROM t3 WHERE x IN
+       (SELECT x FROM t3 ORDER BY x DESC LIMIT 1 OFFSET 2); ;
+SELECT a FROM t4 WHERE b IN (SELECT b FROM t4 ORDER BY b); ;
+SELECT a FROM t4 WHERE b IN (SELECT b FROM t4 ORDER BY b LIMIT 1); ;
+SELECT a FROM t4 WHERE b IN (SELECT b FROM t4 ORDER BY b DESC LIMIT 1); ;
+select max(y) from t1 ;
+SELECT x, y, w FROM t1 WHERE +w=10 ;
+SELECT 99 WHERE 0 ;
+SELECT 99 WHERE 1 ;
+SELECT 99 WHERE 0.1 ;
+SELECT 99 WHERE 0.0 ;
+SELECT count(*) FROM t1 WHERE t1.w ;
+SELECT w, x, y FROM t1 WHERE x IN (1,5) AND y IN (9,8,3025,1000,3969)
+       ORDER BY x, y ;
+SELECT w, x, y FROM t1 WHERE x IN (1,5) AND y IN (9,8,3025,1000,3969)
+       ORDER BY x DESC, y DESC ;
+SELECT w, x, y FROM t1 WHERE x IN (1,5) AND y IN (9,8,3025,1000,3969)
+       ORDER BY x DESC, y ;
+SELECT w, x, y FROM t1 WHERE x IN (1,5) AND y IN (9,8,3025,1000,3969)
+       ORDER BY x, y DESC ;
+SELECT count(*), sum(a), sum(b), sum(c) FROM t3; ;
+SELECT * FROM t5 WHERE x<10; ;
+SELECT * FROM t5 WHERE x<10 ORDER BY x DESC; ;
+SELECT * FROM t5 WHERE x=10; ;
+SELECT 1 WHERE abs(random())<0 ;
+SELECT count(*) FROM t1 WHERE tclvar('v1'); ;
+SELECT count(*) FROM t1 WHERE tclvar('v1'); ;
+SELECT count(*) FROM t1 WHERE tclvar('v1'); ;
+SELECT * FROM a2 CROSS JOIN a1 WHERE a1.id=1 AND a1.v='one'; ;
+SELECT bar.RowID id FROM foo, bar WHERE foo.idx = bar.RowID AND id = 2; ;
+SELECT a.id
+    FROM tbooking AS a
+    WHERE a.eventtype=3; ;
+SELECT a.id, (SELECT b.id FROM tbooking AS b WHERE b.id>a.id)
+    FROM tbooking AS a
+    WHERE a.eventtype=3; ;
+SELECT a.id, (SELECT b.id FROM tbooking AS b WHERE b.id>a.id)
+    FROM (SELECT 1.5 AS id) AS a ;
+SELECT id, a FROM tbooking, tother WHERE id>a; ;
+SELECT * FROM t1 WHERE x IN (20,21) AND y IN (1,2) ;
+SELECT * FROM t1 WHERE x IN (1,2) AND y IN (-5,-6) ;
+SELECT w FROM t1
+       WHERE x IN (SELECT x FROM tx WHERE rowid<0)
+         AND +y IN (SELECT y FROM tx WHERE rowid=1) ;
+SELECT w FROM t1
+       WHERE x IN (SELECT x FROM tx WHERE rowid=1)
+         AND y IN (SELECT y FROM tx WHERE rowid<0) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND y IN (SELECT y FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND z IN (SELECT z FROM t1 WHERE w BETWEEN 12 AND 14) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND y IN (SELECT y FROM t1 WHERE w BETWEEN 12 AND 14)
+         AND z IN (SELECT z FROM t1 WHERE w BETWEEN 10 AND 20) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE w BETWEEN 12 AND 14)
+         AND y IN (SELECT y FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND z IN (SELECT z FROM t1 WHERE w BETWEEN 10 AND 20) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND y IN (SELECT y FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND z IN (SELECT z FROM t1 WHERE w BETWEEN 10 AND 20) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND y IN (SELECT y FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND z IN (SELECT z FROM t1 WHERE w BETWEEN 2 AND 4) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND y IN (SELECT y FROM t1 WHERE w BETWEEN 2 AND 4)
+         AND z IN (SELECT z FROM t1 WHERE w BETWEEN 10 AND 20) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE w BETWEEN 2 AND 4)
+         AND y IN (SELECT y FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND z IN (SELECT z FROM t1 WHERE w BETWEEN 10 AND 20) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND y IN (SELECT y FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND z IN (SELECT z FROM t1 WHERE w BETWEEN -4 AND -2) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND y IN (SELECT y FROM t1 WHERE w BETWEEN -4 AND -2)
+         AND z IN (SELECT z FROM t1 WHERE w BETWEEN 10 AND 20) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE w BETWEEN -4 AND -2)
+         AND y IN (SELECT y FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND z IN (SELECT z FROM t1 WHERE w BETWEEN 10 AND 20) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND y IN (SELECT y FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND z IN (SELECT z FROM t1 WHERE w BETWEEN 200 AND 300) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND y IN (SELECT y FROM t1 WHERE w BETWEEN 200 AND 300)
+         AND z IN (SELECT z FROM t1 WHERE w BETWEEN 10 AND 20) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE w BETWEEN 200 AND 300)
+         AND y IN (SELECT y FROM t1 WHERE w BETWEEN 10 AND 20)
+         AND z IN (SELECT z FROM t1 WHERE w BETWEEN 10 AND 20) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE +w BETWEEN 10 AND 20)
+         AND y IN (SELECT y FROM t1 WHERE +w BETWEEN 10 AND 20)
+         AND z IN (SELECT z FROM t1 WHERE +w BETWEEN 200 AND 300) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE +w BETWEEN 10 AND 20)
+         AND y IN (SELECT y FROM t1 WHERE +w BETWEEN 200 AND 300)
+         AND z IN (SELECT z FROM t1 WHERE +w BETWEEN 10 AND 20) ;
+SELECT w FROM tx
+       WHERE x IN (SELECT x FROM t1 WHERE +w BETWEEN 200 AND 300)
+         AND y IN (SELECT y FROM t1 WHERE +w BETWEEN 10 AND 20)
+         AND z IN (SELECT z FROM t1 WHERE +w BETWEEN 10 AND 20) ;
+SELECT c FROM t11 WHERE a=1 AND b=2 ORDER BY c; ;
+ -- repeated column
+SELECT d FROM t11 WHERE c=9; ;
+SELECT d FROM t11 WHERE c IN (1,2,3,4,5); ;
+SELECT d FROM t11 WHERE c=7 OR (a=1 AND b=2) ORDER BY d; ;
+SELECT * FROM t1, t2 LEFT JOIN t3 ON q=x WHERE p=2 AND a=q; ;
+SELECT parent1.parent1key, child1.value, child2.value
+    FROM parent1
+    LEFT OUTER JOIN child1 ON child1.child1key = parent1.child1key
+    INNER JOIN child2 ON child2.child2key = parent1.child2key; ;
+
+SELECT count(*) FROM t1; ;
+SELECT rowid FROM t1 ORDER BY w, x, y ;
+SELECT rowid FROM t1 ORDER BY w DESC, x, y ;
+SELECT rowid FROM t1 ORDER BY w, x DESC, y ;
+
+SELECT * FROM t2 LEFT JOIN t3 ON a=x WHERE +y IS NULL; ;
+SELECT * FROM t2 LEFT JOIN t3 ON a=x WHERE y IS NULL; ;
+SELECT * FROM t2 LEFT JOIN t3 ON a=x WHERE NULL is y; ;
+SELECT * FROM t2 LEFT JOIN t3 ON a=x WHERE y IS $null; ;
+
+SELECT * FROM test t1 LEFT OUTER JOIN test2 t2 ON t1.col1 = t2.col1
+      WHERE +t2.col1 IS NULL; ;
+SELECT * FROM test t1 LEFT OUTER JOIN test2 t2 ON t1.col1 = t2.col1
+      WHERE t2.col1 IS NULL; ;
+SELECT * FROM test t1 LEFT OUTER JOIN test2 t2 ON t1.col1 = t2.col1
+      WHERE +t1.col1 IS NULL; ;
+SELECT * FROM test t1 LEFT OUTER JOIN test2 t2 ON t1.col1 = t2.col1
+      WHERE t1.col1 IS NULL; ;
+-- Allow the 'x' syntax for backwards compatibility
+
+SELECT *
+      FROM t2 LEFT JOIN t4 b1
+              LEFT JOIN t4 b2 ON b2.x=b1.x AND b2.y IN (b1.y); ;
+
+SELECT rowid FROM t4 WHERE x IN (1,9,2,5) AND y IN (1,3,NULL,2) AND z!=13; ;
+SELECT rowid FROM t4 WHERE x IN (1,9,NULL,2) AND y IN (1,3,2) AND z!=13; ;
+
+SELECT rowid FROM t5
+     WHERE a IN (1,9,2) AND b=2 AND c IN (1,2,3,4) AND d>0 ;
+SELECT rowid FROM t5
+     WHERE a IN (1,NULL,2) AND b=2 AND c IN (1,2,3,4) AND d>0 ;
+
+SELECT * FROM t6 WHERE y=NULL AND z IN ('hello'); ;
+
+SELECT sum((
+      SELECT d FROM t8 WHERE a = i AND b = i AND c < NULL
+    )) FROM t7; ;
+
+SELECT * FROM t1 WHERE x<0 ;
+SELECT * FROM t1 WHERE x<=0 ;
+SELECT * FROM t1 WHERE x=0 ;
+SELECT * FROM t1 WHERE x>=0 ;
+SELECT * FROM t1 WHERE x>0 ;
+SELECT * FROM t1 WHERE x<>0 ;
+SELECT * FROM t1 WHERE x<NULL ;
+SELECT * FROM t1 WHERE x<=NULL ;
+SELECT * FROM t1 WHERE x=NULL ;
+SELECT * FROM t1 WHERE x>=NULL ;
+SELECT * FROM t1 WHERE x>NULL ;
+SELECT * FROM t1 WHERE x!=NULL ;
+SELECT * FROM t1 WHERE x IS NULL ;
+SELECT * FROM t1 WHERE x IS NOT NULL ;
+SELECT * FROM t2 WHERE x<0 ;
+SELECT * FROM t2 WHERE x<=0 ;
+SELECT * FROM t2 WHERE x=0 ;
+SELECT * FROM t2 WHERE x>=0 ;
+SELECT * FROM t2 WHERE x>0 ;
+SELECT * FROM t2 WHERE x<>0 ;
+SELECT * FROM t2 WHERE x<NULL ;
+SELECT * FROM t2 WHERE x<=NULL ;
+SELECT * FROM t2 WHERE x=NULL ;
+SELECT * FROM t2 WHERE x>=NULL ;
+SELECT * FROM t2 WHERE x>NULL ;
+SELECT * FROM t2 WHERE x!=NULL ;
+SELECT * FROM t2 WHERE x IS NULL ;
+SELECT * FROM t2 WHERE x IS NOT NULL ;
+SELECT * FROM t3 WHERE x<0 ;
+SELECT * FROM t3 WHERE x<=0 ;
+SELECT * FROM t3 WHERE x=0 ;
+SELECT * FROM t3 WHERE x>=0 ;
+SELECT * FROM t3 WHERE x>0 ;
+SELECT * FROM t3 WHERE x<>0 ;
+SELECT * FROM t3 WHERE x<NULL ;
+SELECT * FROM t3 WHERE x<=NULL ;
+SELECT * FROM t3 WHERE x=NULL ;
+SELECT * FROM t3 WHERE x>=NULL ;
+SELECT * FROM t3 WHERE x>NULL ;
+SELECT * FROM t3 WHERE x!=NULL ;
+SELECT * FROM t3 WHERE x IS NULL ;
+SELECT * FROM t3 WHERE x IS NOT NULL ;
+SELECT x<NULL FROM t3 ;
+SELECT x<=NULL FROM t3 ;
+SELECT x==NULL FROM t3 ;
+SELECT x>NULL FROM t3 ;
+SELECT x>=NULL FROM t3 ;
+SELECT x!=NULL FROM t3 ;
+SELECT x IS NULL FROM t3 ;
+SELECT x IS NOT NULL FROM t3 ;
+
+    SELECT * FROM t1 LEFT JOIN t2 ON b=x AND c=1; ;
+SELECT * FROM t1 LEFT JOIN t2 ON x=b AND c=1; ;
+SELECT * FROM t1 LEFT JOIN t2 ON x=b AND 1=c; ;
+SELECT * FROM t1 LEFT JOIN t2 ON b=x AND 1=c; ;
+SELECT * FROM t1 LEFT JOIN t2 ON b=x WHERE c=1; ;
+SELECT * FROM t1 LEFT JOIN t2 ON x=b WHERE c=1; ;
+SELECT * FROM t1 LEFT JOIN t2 ON b=x WHERE 1=c; ;
+
+    SELECT * FROM t1 LEFT JOIN t2 ON b=x AND c=1; ;
+SELECT * FROM t1 LEFT JOIN t2 ON x=b AND c=1; ;
+SELECT * FROM t1 LEFT JOIN t2 ON x=b AND 1=c; ;
+SELECT * FROM t1 LEFT JOIN t2 ON b=x AND 1=c; ;
+SELECT * FROM t1 LEFT JOIN t2 ON b=x WHERE c=1; ;
+SELECT * FROM t1 LEFT JOIN t2 ON x=b WHERE c=1; ;
+SELECT * FROM t1 LEFT JOIN t2 ON x=b WHERE 1=c; ;
+SELECT * FROM t1 LEFT JOIN t2 ON b=x WHERE 1=c; ;
+
+    SELECT t4a.x, t4b.x, t5.c, t6.v
+      FROM t4 AS t4a
+           INNER JOIN t4 AS t4b
+           LEFT JOIN t5 ON t5.a=t4a.x AND t5.b=t4b.x
+           LEFT JOIN (SELECT 1 AS v) AS t6 ON t4a.x=t4b.x
+     ORDER BY 1, 2, 3; ;
+
+    SELECT * FROM t1; ;
+
+      SELECT b FROM e1; ;
+SELECT c FROM e1 WHERE a=1 OR b='three'; ;
+
+SELECT * FROM tA WHERE
+      a=1 AND b=2 AND c=3 AND d=4 AND e=5 AND f=6 AND g=7 AND h=8 AND
+      i=1 AND j=2 AND k=3 AND l=4 AND m=5 AND n=6 AND o=7 AND
+      (p = 1 OR p = 2 OR p = 3) ;
+SELECT * FROM tA WHERE
+      a=1 AND b=2 AND c=3 AND d=4 AND e=5 AND f=6 AND g=7 AND h=8 AND
+      i=1 AND j=2 AND k=3 AND l=4 AND m=5 AND
+      (p = 1 OR p = 2 OR p = 3) AND n=6 AND o=7 ;
+
+SELECT a, x FROM tA LEFT JOIN tB ON (
+      a=1 AND b=2 AND c=3 AND d=4 AND e=5 AND f=6 AND g=7 AND h=8 AND
+      i=1 AND j=2 AND k=3 AND l=4 AND m=5 AND n=6 AND o=7 AND
+      (p = 1 OR p = 2 OR p = 3)
+    ) ;
+
+SELECT count(*) FROM t1 UNION ALL SELECT a FROM t1 WHERE a>=85 ;
+SELECT count(*) FROM t1 UNION ALL
+    SELECT a FROM t1 WHERE a>=85;
+     ;
+SELECT count(*) FROM t1 UNION ALL
+     SELECT a FROM t1 WHERE a>=85;
+      ;
+SELECT count(*) FROM t1 UNION ALL
+     SELECT a FROM t1 WHERE a>=85;
+
+SELECT count(*) FROM t1 UNION ALL SELECT a FROM t1 WHERE a>=85;
+      ;
+SELECT count(*) FROM t1 UNION ALL
+    SELECT a FROM t1 WHERE a BETWEEN 85 AND 100;
+     ;
+SELECT count(*) FROM t1 UNION ALL
+    SELECT a FROM t1 WHERE a BETWEEN 85 AND 200;
+     ;
+SELECT count(*) FROM t1 UNION ALL
+    SELECT a FROM t1 WHERE a BETWEEN 85 AND 100;
+     ;
+SELECT count(*) FROM t1 UNION ALL
+    SELECT a FROM t1 WHERE a BETWEEN 85 AND 100;
+     ;
+SELECT count(*) FROM t1 UNION ALL
+    SELECT a FROM t1 WHERE a BETWEEN 85 AND 100;
+     ;
+SELECT count(*) FROM t1 UNION ALL
+    SELECT a FROM t1 WHERE a BETWEEN 85 AND 100;
+     ;
+SELECT count(*) FROM t1 UNION ALL
+    SELECT a FROM t1 WHERE a IN (5,31,57,82,83,84,85,86,87);
+     ;
+SELECT count(*) FROM t1 UNION ALL
+    SELECT a FROM t1 WHERE a%100 IN (5,31,57,82,83,84,85,86,87) ORDER BY rowid;
+     ;
+SELECT count(*) FROM t1 UNION ALL
+    SELECT a FROM t1 WHERE a BETWEEN 85 AND 100;
+     ;
+SELECT count(*) FROM t1 UNION ALL
+    SELECT a FROM t1 WHERE a BETWEEN 85 AND 200;
+     ;
+SELECT count(*) FROM t1 UNION ALL
+    SELECT a FROM t1 WHERE a BETWEEN 85 AND 100;
+     ;
+SELECT count(*) FROM t1 UNION ALL
+    SELECT a FROM t1 WHERE a BETWEEN 85 AND 200;
+
+SELECT a FROM t6 WHERE x='y' AND (b=913 OR c=27027) ORDER BY a; ;
+SELECT a FROM t6 WHERE x='n' AND (b=913 OR c=27027) ORDER BY a; ;
+SELECT a FROM t6 WHERE (x='y' OR y='y') AND b=913 ORDER BY a; ;
+SELECT a FROM t6 WHERE (x='y' OR y='y') AND c=27027 ORDER BY a; ;
+
+SELECT *
+      FROM t81 LEFT JOIN t82 ON y=b JOIN t83
+     WHERE c==p OR d==p
+     ORDER BY +a; ;
+SELECT *
+      FROM t81 LEFT JOIN (t82) ON y=b JOIN t83
+     WHERE c==p OR d==p
+     ORDER BY +a; ;
+SELECT *
+      FROM (t81) LEFT JOIN (main.t82) ON y=b JOIN t83
+     WHERE c==p OR d==p
+     ORDER BY +a; ;
+
+    SELECT 1 FROM t91 LEFT JOIN t92 ON a=2 OR b=3;
+    SELECT 2 FROM t91 LEFT JOIN t92 ON a=2 AND b=3;
+    SELECT 3 FROM t91 LEFT JOIN t92 ON (a=2 OR b=3) AND y IS NULL;
+    SELECT 4 FROM t91 LEFT JOIN t92 ON (a=2 AND b=3) AND y IS NULL;
+    SELECT 5 FROM x9 WHERE y IS NULL;
+    SELECT 6 FROM t91 LEFT JOIN t92 ON a=2 OR b=3 WHERE y IS NULL;
+    SELECT 7 FROM t91 LEFT JOIN t92 ON a=2 AND b=3 WHERE y IS NULL;
+    SELECT 8 FROM t91 LEFT JOIN t92 ON a=22 OR b=33 WHERE y IS NULL;
+    SELECT 9 FROM t91 LEFT JOIN t92 ON a=22 AND b=33 WHERE y IS NULL; ;
+
+    SELECT * FROM t101 AS t0
+         LEFT JOIN t101 AS t1 ON t1.id BETWEEN 10 AND 20
+         JOIN t101 AS t2 ON (t2.id = t0.id OR (t2.id<>555 AND t2.id=t1.id)); ;
+
+    SELECT * FROM t102 AS t0
+         LEFT JOIN t102 AS t1 ON t1.id GLOB 'abc%'
+         JOIN t102 AS t2 ON (t2.id = t0.id OR (t2.id<>555 AND t2.id=t1.id)); ;
+
+    SELECT * FROM t1 ;
+
+    SELECT * FROM t1; ;
+
+    SELECT * FROM t1; ;
+
+    SELECT * FROM t1 ORDER BY rowid; ;
+    SELECT * FROM t1 ORDER BY rowid; ;
+    SELECT * FROM t1; ;
+
+    SELECT * FROM t1 WHERE a>0; ;
+
+    SELECT * FROM t1 WHERE a>0; ;
+
+    SELECT * FROM t1 WHERE a>0 ORDER BY rowid; ;
+
+    SELECT * FROM t1 WHERE b>0; ;
+
+    SELECT * FROM t1 WHERE b>0; ;
+
+    SELECT * FROM t1 WHERE b>0 ORDER BY b; ;
+
+    SELECT x FROM t2; ;
+
+    SELECT x, a, y=b FROM t1, t2 ORDER BY +x, +a; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+    SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+
+
+SELECT x, a, y=b FROM t1, t2 ORDER BY +x, +a; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+
+SELECT x, a, y=b FROM t1, t2; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+SELECT x, a, y=b FROM t1, t2; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+SELECT x, a, y=b FROM t1, t2; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+SELECT x, a, y=b FROM t1, t2; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+SELECT x, a, y=b FROM t1, t2; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+SELECT x, a, y=b FROM t1, t2; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+SELECT x, a, y=b FROM t1, t2; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE y=b; ;
+SELECT x, a, y=b FROM t1, t2 WHERE b=y; ;
+SELECT x, a, y=b FROM t1, t2 WHERE +y=+b; ;
+SELECT * FROM t41 AS x LEFT JOIN t42 AS y ON (y.d=x.c) OR (y.e=x.b); ;
+SELECT * FROM t41 AS x LEFT JOIN t42 AS y ON (y.d=x.c) OR (y.e=x.b); ;
+SELECT * FROM t41 AS x LEFT JOIN t42 AS y ON (y.d=x.c) OR (y.d=x.b); ;
+SELECT * FROM t1
+    WHERE (a=1 OR a=2)
+       AND (b=3 OR b=4)
+       AND (d>=5 AND d<=5)
+       AND ((e>=7 AND e<=7) OR (f>=8 AND f<=8))
+       AND g>0; ;
+SELECT * FROM sqlite_master ;
+SELECT * FROM sqlite_master ;
+SELECT * FROM sqlite_master ;
+
+WITH flat(fid, depth, p) AS (
+        SELECT id, 1, '/' || payload FROM tree WHERE parentid IS NULL
+        UNION ALL
+        SELECT id, depth+1, p||'/'||payload FROM flat, tree WHERE parentid=fid
+        $order
+    )
+    SELECT p FROM flat; ;
+
+WITH x AS (
+        WITH y(b) AS (SELECT 10)
+        SELECT * FROM y UNION ALL SELECT * FROM y
+    )
+  SELECT * FROM x;
+
+WITH tmp AS ( SELECT * FROM t1 )
+    SELECT * FROM tmp; ;
+
+WITH w1 AS ( SELECT * FROM t1 ),
+         w2 AS (
+           WITH w3 AS ( SELECT * FROM w1 )
+           SELECT * FROM w3
+         )
+  SELECT * FROM w2;
+
+
+WITH w1(a,b) AS (
+      SELECT 1, 1
+      UNION ALL
+      SELECT a+1, b + 2*a + 1 FROM w1
+    )
+  SELECT * FROM w1 LIMIT 5;
+
+SELECT DISTINCT log FROM t1
+    INTERSECT
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY log; ;
+SELECT DISTINCT log FROM t1
+    UNION ALL
+    SELECT 6
+    INTERSECT
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY t1.log; ;
+
+SELECT DISTINCT log FROM t1 ORDER BY log
+    UNION ALL
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY log; ;
+SELECT DISTINCT log FROM t1 ORDER BY log
+    UNION
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY log; ;
+SELECT DISTINCT log FROM t1 ORDER BY log
+    EXCEPT
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY log; ;
+
+SELECT 0 ORDER BY (SELECT 0) UNION SELECT 0; ;
+SELECT DISTINCT log FROM t1 ORDER BY log
+    INTERSECT
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY log; ;
+SELECT DISTINCT log FROM t2
+    UNION ALL
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY log; ;
+SELECT DISTINCT log AS "xyzzy" FROM t1
+    UNION ALL
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY xyzzy; ;
+SELECT DISTINCT log AS xyzzy FROM t1
+    UNION ALL
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY "xyzzy"; ;
+SELECT DISTINCT log FROM t1
+    UNION ALL
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY "xyzzy"; ;
+SELECT DISTINCT log FROM t1
+    INTERSECT
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY "xyzzy"; ;
+SELECT DISTINCT log FROM t1
+    UNION ALL
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY n; ;
+SELECT DISTINCT log, n FROM t1
+    UNION ALL
+    SELECT n FROM t1 WHERE log=3
+    ORDER BY log; ;
+SELECT log FROM t1 WHERE n=2
+    UNION ALL
+    SELECT log FROM t1 WHERE n=3
+    UNION ALL
+    SELECT log FROM t1 WHERE n=4
+    UNION ALL
+    SELECT log FROM t1 WHERE n=5
+    ORDER BY log; ;
+SELECT log, count(*) as cnt FROM t1 GROUP BY log
+    UNION
+    SELECT log, n FROM t1 WHERE n=7
+    ORDER BY cnt, log; ;
+SELECT log, count(*) FROM t1 GROUP BY log
+    UNION
+    SELECT log, n FROM t1 WHERE n=7
+    ORDER BY count(*), log; ;
+SELECT NULL UNION SELECT NULL UNION
+    SELECT 1 UNION SELECT 2 AS 'x'
+    ORDER BY x; ;
+SELECT NULL UNION ALL SELECT NULL UNION ALL
+    SELECT 1 UNION ALL SELECT 2 AS 'x'
+    ORDER BY x;
