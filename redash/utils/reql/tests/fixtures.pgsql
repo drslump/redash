@@ -409,6 +409,7 @@ select aggfns(distinct a,b,c order by b)
   from (values (1,3,'foo'),(0,null,null),(2,2,'bar'),(3,1,'baz')) v(a,b,c),
        generate_series(1,3) i;
 
+--#UNSUPPORTED ~<~ operator
 -- select aggfns(distinct a,a,c order by c using ~<~,a)
 --   from (values (1,3,'foo'),(0,null,null),(2,2,'bar'),(3,1,'baz')) v(a,b,c),
 --        generate_series(1,2) i;
@@ -426,46 +427,39 @@ select aggfns(a,b,c)
     from (values (1,3,'foo'),(0,null,null),(2,2,'bar'),(3,1,'baz')) v(a,b,c);
 
 select * from agg_view1;
-select pg_get_viewdef('agg_view1'::regclass);
 
 select aggfns(distinct a,b,c)
     from (values (1,3,'foo'),(0,null,null),(2,2,'bar'),(3,1,'baz')) v(a,b,c),
          generate_series(1,3) i;
 
 select * from agg_view1;
-select pg_get_viewdef('agg_view1'::regclass);
 
 select aggfns(distinct a,b,c order by b)
     from (values (1,3,'foo'),(0,null,null),(2,2,'bar'),(3,1,'baz')) v(a,b,c),
          generate_series(1,3) i;
 
 select * from agg_view1;
-select pg_get_viewdef('agg_view1'::regclass);
 
 select aggfns(a,b,c order by b+1)
     from (values (1,3,'foo'),(0,null,null),(2,2,'bar'),(3,1,'baz')) v(a,b,c);
 
 select * from agg_view1;
-select pg_get_viewdef('agg_view1'::regclass);
 
 select aggfns(a,a,c order by b)
     from (values (1,3,'foo'),(0,null,null),(2,2,'bar'),(3,1,'baz')) v(a,b,c);
 
 select * from agg_view1;
-select pg_get_viewdef('agg_view1'::regclass);
 
 -- select aggfns(a,b,c order by c using ~<~)
 --     from (values (1,3,'foo'),(0,null,null),(2,2,'bar'),(3,1,'baz')) v(a,b,c);
 
 select * from agg_view1;
-select pg_get_viewdef('agg_view1'::regclass);
 
 -- select aggfns(distinct a,b,c order by a,c using ~<~,b)
 --     from (values (1,3,'foo'),(0,null,null),(2,2,'bar'),(3,1,'baz')) v(a,b,c),
 --          generate_series(1,2) i;
 
 select * from agg_view1;
-select pg_get_viewdef('agg_view1'::regclass);
 
 select aggfns(distinct a,b,c order by i)
   from (values (1,1,'foo')) v(a,b,c), generate_series(1,2) i;

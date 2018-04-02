@@ -14,8 +14,8 @@ def build_parser(dialects, dryrun=False):
     with codecs.open(pth + '/sql.g', encoding='utf8') as fd:
         grammar = fd.read()
         grammar = re.sub(r'//\+({0})\b'.format(dialects), spaces, grammar)
-        grammar = re.sub(r'(?m)^.*?//\+(?!{0})\b.*?$'.format(dialects), '', grammar)
         grammar = re.sub(r'(?m)^.*?//\-(?={0})\b.*?$'.format(dialects), '', grammar)
+        grammar = re.sub(r'(?m)^.*?//\+(?!{0})\b.*?$'.format(dialects), '', grammar)
 
     if not dryrun:
         main(grammar, 'start')

@@ -313,6 +313,7 @@ SELECT *
     FROM (SELECT count(*),y FROM t1 GROUP BY y) AS a,
          (SELECT max(x),y FROM t1 GROUP BY y) as b
     WHERE a.y=b.y ORDER BY a.y ;
+-- @skip reql
 SELECT a.y, a.[count(*)], [max(x)], [count(*)]
     FROM (SELECT count(*),y FROM t1 GROUP BY y) AS a,
          (SELECT max(x),y FROM t1 GROUP BY y) as b
@@ -321,6 +322,7 @@ SELECT q, p, r
     FROM (SELECT count(*) as p , y as q FROM t1 GROUP BY y) AS a,
          (SELECT max(x) as r, y as s FROM t1 GROUP BY y) as b
     WHERE q=s ORDER BY s ;
+-- @skip reql
 SELECT q, p, r, b.[min(x)+y]
     FROM (SELECT count(*) as p , y as q FROM t1 GROUP BY y) AS a,
          (SELECT max(x) as r, y as s, min(x)+y FROM t1 GROUP BY y) as b
@@ -335,6 +337,7 @@ SELECT *
     FROM (SELECT count(*),b FROM t2 GROUP BY b) AS a,
          (SELECT max(a),b FROM t2 GROUP BY b) as b
     WHERE a.b=b.b ORDER BY a.b ;
+-- @skip reql
 SELECT a.b, a.[count(*)], [max(a)], [count(*)]
     FROM (SELECT count(*),b FROM t2 GROUP BY b) AS a,
          (SELECT max(a),b FROM t2 GROUP BY b) as b
@@ -375,8 +378,10 @@ SELECT a,b,a+b FROM
 SELECT a,b,a+b FROM
        (SELECT avg(x) as 'a', y as 'b' FROM t1 GROUP BY b HAVING a>1)
     ORDER BY a ;
+-- @skip reql
 SELECT [count(*)],y FROM (SELECT count(*), y FROM t1 GROUP BY y)
     ORDER BY [count(*)] ;
+-- @skip reql
 SELECT [count(*)],y FROM (SELECT count(*), y FROM t1 GROUP BY y)
     ORDER BY y ;
 SELECT a,b,c FROM
