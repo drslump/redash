@@ -17,7 +17,11 @@ class ReqlParser(object):
         self.Tree = module.Tree
         self.Token = module.Token
 
-        self.lark = module.Lark_StandAlone(transformer=transformer, postlex=None)
+        # HACK: Restore aliases due to bug in Lark
+        for rule, alias in module.parse_tree_builder.user_aliases.items():
+            rule.alias = alias
+
+        self.lark = module.Lark_StandAlone(transformer=transformer, postlex=postlex)
 
     def parse(self, code, transformer=None):
         tree = self.lark.parse(code)
